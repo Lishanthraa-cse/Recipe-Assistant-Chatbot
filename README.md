@@ -137,6 +137,6 @@ GitHub: https://github.com/Lishanthraa-cse
 
 Email: lishanthraa.1805@gmail.com
 
-# ⚠️ Disclaimer
+## ⚠️ Disclaimer
 
 This system provides recipe suggestions for informational purposes only. Always ensure you're not allergic to any ingredients and cook food to proper temperatures for safety. Consult a nutritionist or doctor for specific dietary needs.

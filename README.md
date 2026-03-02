@@ -67,7 +67,7 @@ The **Recipe Assistant Chatbot** is an AI-powered culinary platform that helps u
    
       http://localhost:5000
 
-# 📁 Project Structure
+## 📁 Project Structure
 recipe-assistant-chatbot/
 
 ├── app.py                 # Main Flask application
@@ -90,7 +90,7 @@ recipe-assistant-chatbot/
 
 └── README.md              # Project documentation
 
-# 📝 Usage Examples
+## 📝 Usage Examples
 - Quick Search:
 "Find recipes with chicken and rice"
 - Voice Search:
@@ -100,7 +100,7 @@ Select preferences → Generate weekly meal plan
 - Favorites:
 Save recipes you love for quick access later
 
-# 🔗 API Endpoints
+## 🔗 API Endpoints
 / – Home page
 
 /features – Features overview
@@ -117,7 +117,7 @@ Save recipes you love for quick access later
 
 /remove_from_favorites – Remove from favorites
 
-# 🔮 Future Enhancements
+## 🔮 Future Enhancements
 
 🛒 Smart grocery list generation
 
@@ -131,7 +131,7 @@ Save recipes you love for quick access later
 
 🔄 Recipe scaling for different serving sizes
 
-# 📧 Contact
+## 📧 Contact
 
 GitHub: https://github.com/Lishanthraa-cse
 

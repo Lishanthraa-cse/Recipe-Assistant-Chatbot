@@ -68,6 +68,7 @@ http://localhost:5000
 
 # 📁 Project Structure
 recipe-assistant-chatbot/
+
 ├── app.py                 # Main Flask application
 
 ├── requirements.txt       # Python dependencies
@@ -132,13 +133,12 @@ Save recipes you love for quick access later
 
 🔄 Recipe scaling for different serving sizes
 
-
-📧 Contact
+# 📧 Contact
 
 GitHub: https://github.com/Lishanthraa-cse
 
 Email: lishanthraa.1805@gmail.com
 
-⚠️ Disclaimer
+# ⚠️ Disclaimer
 
 This system provides recipe suggestions for informational purposes only. Always ensure you're not allergic to any ingredients and cook food to proper temperatures for safety. Consult a nutritionist or doctor for specific dietary needs.

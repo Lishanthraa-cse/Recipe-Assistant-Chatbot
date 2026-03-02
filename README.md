@@ -69,14 +69,23 @@ http://localhost:5000
 # 📁 Project Structure
 recipe-assistant-chatbot/
 ├── app.py                 # Main Flask application
+
 ├── requirements.txt       # Python dependencies
+
 ├── static/                # CSS, JS, images
+
 ├── templates/             # HTML templates
+
 │   ├── home.html          # Home page
+
 │   ├── features.html      # Features page
+
 │   ├── blog.html          # Blog page
+
 │   └── favourites.html    # Favorites page
+
 ├── recipes.db             # SQLite database
+
 └── README.md              # Project documentation
 
 # 📝 Usage Examples
@@ -123,29 +132,13 @@ Save recipes you love for quick access later
 
 🔄 Recipe scaling for different serving sizes
 
-# 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-# Fork the repository
-
-Create your feature branch
-git checkout -b feature/AmazingFeature
-
-Commit your changes
-git commit -m 'Add some AmazingFeature'
-
-Push to the branch
-git push origin feature/AmazingFeature
-
-Open a Pull Request
-📄 License
-This project is licensed under the MIT License – see the LICENSE file for details.
 
 📧 Contact
+
 GitHub: https://github.com/Lishanthraa-cse
 
 Email: lishanthraa.1805@gmail.com
 
 ⚠️ Disclaimer
+
 This system provides recipe suggestions for informational purposes only. Always ensure you're not allergic to any ingredients and cook food to proper temperatures for safety. Consult a nutritionist or doctor for specific dietary needs.

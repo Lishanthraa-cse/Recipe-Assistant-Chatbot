@@ -20,16 +20,12 @@ The **Recipe Assistant Chatbot** is an AI-powered culinary platform that helps u
 
 1. **Search by Ingredients**  
    Enter what's in your kitchen to get recipe ideas  
-
 2. **Select Preferences**  
    Choose dietary restrictions and cooking time  
-
 3. **Get Recommendations**  
    Receive personalized recipe suggestions  
-
 4. **Plan Your Meals**  
    Generate complete daily meal plans  
-
 5. **Cook with AI Guidance**  
    Get step-by-step instructions and tips  
 
@@ -90,16 +86,13 @@ recipe-assistant-chatbot/
 └── README.md              # Project documentation
 
 # 📝 Usage Examples
-Quick Search:
+- Quick Search:
 "Find recipes with chicken and rice"
-
-Voice Search:
+- Voice Search:
 Click the microphone icon and say "vegetarian pasta recipes"
-
-Meal Planning:
+- Meal Planning:
 Select preferences → Generate weekly meal plan
-
-Favorites:
+- Favorites:
 Save recipes you love for quick access later
 
 # 🔗 API Endpoints

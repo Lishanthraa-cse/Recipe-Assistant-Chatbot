@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Recipe Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #FFB6C1, #FFDEAD);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .message {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #FFFAF0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover, .favourite-link:hover {
+            text-decoration: underline;
+        }
+        .back-link, .favourite-link {
+            display: inline-block;
+            margin-top: 20px;
+            color:  black;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h1>No Recipe Found</h1>
+        <p>{{ message if message else "Sorry, no recipes match your search." }}</p>
+    </div>
+    <!-- Home Button -->
+    <a href="{{ url_for('home') }}" class="back-link">
+        <i class="fas fa-home icon"></i> Home</a>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favourite Recipes - Recipe Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+            --pastel-green: #C1E1C1;
+            --pastel-blue: #B5EAD7;
+            --pastel-purple: #D8BFD8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Favourites Section */
+        .favourites-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--pastel-peach);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        /* Recipe List */
+        .recipe-list-container {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .recipe-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 2px solid var(--pastel-cream);
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .recipe-item:hover {
+            background: linear-gradient(90deg, var(--pastel-cream), white);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .recipe-item:last-child {
+            border-bottom: none;
+        }
+
+        .recipe-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .recipe-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--pastel-pink);
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .recipe-details {
+            flex-grow: 1;
+        }
+
+        .recipe-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .recipe-category {
+            color: var(--pastel-coral);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .remove-btn {
+            background: none;
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .remove-btn:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: white;
+            border-radius: 25px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            color: var(--pastel-pink);
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            color: var(--pastel-coral);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .empty-text {
+            color: #666;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: 2px solid var(--pastel-peach);
+            color: var(--text-dark);
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .action-btn:hover {
+            background: var(--pastel-peach);
+            transform: translateY(-3px);
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .recipe-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .recipe-content {
+                width: 100%;
+            }
+
+            .remove-btn {
+                align-self: flex-end;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .recipe-list-container {
+                padding: 20px;
+            }
+
+            .recipe-item {
+                padding: 15px;
+            }
+
+            .recipe-content {
+                gap: 15px;
+            }
+
+            .recipe-name {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">My Favourite Recipes</h1>
+            <p class="hero-subtitle">All your saved recipes in one place. Quick access to your favorite dishes with easy removal options.</p>
+        </div>
+
+        <!-- Favourites Section -->
+        <div class="favourites-section">
+            <h2 class="section-title">Your Saved Recipes</h2>
+
+            {% if favorites and favorites|length > 0 %}
+            <div class="recipe-list-container">
+                {% for recipe in favorites %}
+                <div class="recipe-item">
+                    <div class="recipe-content">
+                        <div class="recipe-number">{{ loop.index }}</div>
+                        <div class="recipe-details">
+                            <div class="recipe-name">{{ recipe }}</div>
+                            <div class="recipe-category">
+                                {% if cuisines and recipe in cuisines %}
+                                    {{ cuisines[recipe] }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <form action="{{ url_for('remove_from_favorites') }}" method="POST" style="display: inline;">
+                        <input type="hidden" name="dish_name" value="{{ recipe }}">
+                        <button type="submit" class="remove-btn">
+                            <i class="fas fa-trash-alt"></i> Remove
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <a href="{{ url_for('home') }}" class="action-btn">
+                    <i class="fas fa-search"></i> Find More Recipes
+                </a>
+                <button class="action-btn" onclick="clearAllFavourites()" style="cursor: pointer;">
+                    <i class="fas fa-trash"></i> Clear All Favourites
+                </button>
+                <button class="action-btn" onclick="shareFavourites()" style="cursor: pointer;">
+                    <i class="fas fa-share-alt"></i> Share List
+                </button>
+            </div>
+
+            {% else %}
+            <!-- Empty State -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="empty-title">No Favourite Recipes Yet</h3>
+                <p class="empty-text">You haven't saved any recipes to your favourites. Start exploring and save your favorite recipes to access them quickly here!</p>
+                <div class="quick-actions">
+                    <a href="{{ url_for('home') }}" class="action-btn">
+                        <i class="fas fa-search me-2"></i>Browse Recipes
+                    </a>
+                    <a href="{{ url_for('features') }}" class="action-btn">
+                        <i class="fas fa-star me-2"></i>Explore Features
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Cook Your Favourites</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate recipe items on scroll
+            const recipeItems = document.querySelectorAll('.recipe-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            recipeItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(item);
+            });
+
+            // Confirm removal for individual items
+            const removeForms = document.querySelectorAll('form[action*="remove_from_favorites"]');
+            removeForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    if (!confirm('Are you sure you want to remove this recipe from your favourites?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            // Add hover effects to recipe items
+            recipeItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'rgba(255, 182, 193, 0.1)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+        });
+
+        // Share favourites function
+        function shareFavourites() {
+            const recipeNames = Array.from(document.querySelectorAll('.recipe-name')).map(name => name.textContent);
+
+            if (recipeNames.length === 0) {
+                alert('No recipes to share!');
+                return;
+            }
+
+            const shareText = `My Favourite Recipes:\n\n${recipeNames.map((name, index) => `${index + 1}. ${name}`).join('\n')}\n\nShared from Recipe Assistant`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Favourite Recipes',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(err => {
+                    console.error('Error sharing:', err);
+                    copyToClipboard(shareText);
+                });
+            } else {
+                copyToClipboard(shareText);
+            }
+        }
+
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Recipe list copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy recipe list. Please try again.');
+            });
+        }
+
+        // Clear all favourites function
+        function clearAllFavourites() {
+            if (!confirm('Are you sure you want to remove ALL recipes from your favourites? This action cannot be undone.')) {
+                return;
+            }
+
+            const removeForms = document.querySelectorAll('form[action*="remove_from_favorites"]');
+            let removedCount = 0;
+
+            removeForms.forEach(form => {
+                // Create a temporary form submission
+                const formData = new FormData(form);
+                const recipeName = formData.get('dish_name');
+
+                // Simulate removal by hiding the item with animation
+                const recipeItem = form.closest('.recipe-item');
+                if (recipeItem) {
+                    recipeItem.style.opacity = '0';
+                    recipeItem.style.transform = 'translateX(-100px)';
+                    recipeItem.style.transition = 'all 0.5s ease';
+
+                    setTimeout(() => {
+                        recipeItem.style.display = 'none';
+                        removedCount++;
+
+                        // Update stats if this is the last item
+                        if (removedCount === removeForms.length) {
+                            // Update the UI to show empty state
+                            document.querySelector('.recipe-list-container').innerHTML = `
+                                <div class="empty-state" style="margin: 0; box-shadow: none;">
+                                    <div class="empty-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <h3 class="empty-title">All Recipes Removed</h3>
+                                    <p class="empty-text">All recipes have been removed from your favourites. Start fresh by exploring new recipes!</p>
+                                </div>
+                            `;
+
+                            // Update stats
+                            document.querySelectorAll('.stats-number')[0].textContent = '0';
+                            document.querySelectorAll('.stats-number')[1].textContent = '0';
+                            document.querySelectorAll('.stats-number')[2].textContent = '0';
+
+                            // Hide quick actions and show empty state actions
+                            document.querySelector('.quick-actions').innerHTML = `
+                                <a href="{{ url_for('home') }}" class="action-btn">
+                                    <i class="fas fa-search me-2"></i>Browse Recipes
+                                </a>
+                                <a href="{{ url_for('features') }}" class="action-btn">
+                                    <i class="fas fa-star me-2"></i>Explore Features
+                                </a>
+                            `;
+                        }
+                    }, 300);
+                }
+            });
+
+            // In a real application, you would send a request to the server
+            // to remove all favourites at once. For now, we'll simulate it.
+            console.log('All favourites would be removed on the server side.');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recipe Assistant Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        .custom-btn {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+            border: 2px solid var(--pastel-coral);
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .custom-btn:hover {
+            background-color: var(--pastel-coral);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-apricot);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Search Section */
+        .search-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-title {
+            color: var(--pastel-coral);
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-input {
+            border-radius: 25px;
+            border: 2px solid var(--pastel-peach);
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            border-color: var(--pastel-coral);
+            box-shadow: 0 0 0 0.25rem rgba(255, 160, 122, 0.25);
+        }
+
+        /* Features Section */
+        .features-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            height: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+            background-color: var(--pastel-cream);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            color: #777;
+            font-size: 0.95rem;
+        }
+
+        /* Trending Recipes Section */
+        .trending-section {
+            margin: 60px 0;
+        }
+
+        .trending-card {
+            height: 180px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            cursor: pointer;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trending-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .trending-card span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .trending-card:hover {
+            transform: scale(1.05);
+        }
+
+        .recipe-1 {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://t3.ftcdn.net/jpg/06/01/41/66/240_F_601416673_Tn9dqtXuujNiavuJnNNspgcDezsStYpD.jpg') center/cover;
+        }
+
+        .recipe-2 {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://t4.ftcdn.net/jpg/09/03/49/13/240_F_903491316_CIa8uBGC8Stb4Ctaygs5kr0SFVTt1xUn.jpg') center/cover;
+        }
+
+        .recipe-3 {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://t3.ftcdn.net/jpg/06/32/64/50/240_F_632645068_Wd9eiHypAaKAULQztjjjlb50n7c4mjpF.jpg') center/cover;
+        }
+
+        .recipe-4 {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://t3.ftcdn.net/jpg/01/09/36/28/240_F_109362819_xQOWZnMKazTy9PMsYRcBH3CUtgZEmG2Z.jpg') center/cover;
+        }
+
+        /* Quick Stats */
+        .stats-section {
+            background: rgba(255, 250, 240, 0.9);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 60px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--pastel-coral);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+                <form class="d-flex ms-lg-3 mt-3 mt-lg-0" action="{{ url_for('search_recipe') }}" method="POST">
+                    <input class="form-control search-input me-2" type="search" name="recipe_name" placeholder="Search recipes..." required>
+                    <button class="btn custom-btn" type="submit"><i class="fas fa-search me-2"></i></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Delicious Recipes Await!</h1>
+            <p class="hero-subtitle">Your personal AI chef that helps you discover, create, and enjoy amazing dishes tailored to your taste, ingredients, and dietary preferences. From quick meals to gourmet feasts, we've got you covered!</p>
+            <a href="#search" class="btn custom-btn px-4 py-3 mt-3" style="font-size: 1.1rem;">
+                <i class="fas fa-utensils me-2"></i>Explore Recipes
+            </a>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-container" id="search">
+            <h3 class="search-title">Find Your Perfect Recipe</h3>
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <form action="{{ url_for('search_recipe') }}" method="POST">
+                        <div class="input-group">
+                            <input type="text" class="form-control search-input" name="recipe_name" placeholder="Try 'vegetarian pasta', 'chicken dinner', or 'quick dessert'..." required>
+                            <button class="btn custom-btn" type="submit"><i class="fas fa-search me-2"></i>Search</button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <small class="text-muted">Or try: <a href="{{ url_for('ingredient_search') }}" class="text-decoration-none" style="color: var(--pastel-coral);">by ingredients</a> • <a href="{{ url_for('smart_suggestions') }}" class="text-decoration-none" style="color: var(--pastel-coral);">by voice</a> • <a href="{{ url_for('dietary_filter') }}" class="text-decoration-none" style="color: var(--pastel-coral);">by dietary needs</a></small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section">
+            <h2 class="section-title">Why Choose Recipe Assistant?</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h4 class="feature-title">Voice Search</h4>
+                        <p class="feature-desc">Just say what you want to cook and get instant recipe suggestions.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4 class="feature-title">Dietary Filters</h4>
+                        <p class="feature-desc">Find recipes that match vegan, gluten-free, keto, and other dietary needs.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4 class="feature-title">Time Saver</h4>
+                        <p class="feature-desc">Get recipes based on your available cooking time - from 10 min to 2 hours.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-list-check"></i>
+                        </div>
+                        <h4 class="feature-title">Smart Suggestions</h4>
+                        <p class="feature-desc">Get ingredient-based recommendations and substitution ideas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trending Recipes Section -->
+        <div class="trending-section">
+            <h2 class="section-title">Trending This Week</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="trending-card recipe-1" onclick="searchTrending('butter chicken')">
+                        <span><i class="fas fa-fire me-2"></i>Butter Chicken</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="trending-card recipe-2" onclick="searchTrending('paneer tikka')">
+                        <span><i class="fas fa-pepper-hot me-2"></i>Paneer Tikka</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="trending-card recipe-3" onclick="searchTrending('payasam')">
+                        <span><i class="fas fa-leaf me-2"></i>Payasam</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="trending-card recipe-4" onclick="searchTrending('pasta')">
+                        <span><i class="fas fa-utensils me-2"></i>Pasta</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-section">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="stat-item">
+                        <div class="stat-number">300+</div>
+                        <div class="stat-label">Recipes</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Cuisines</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="stat-item">
+                        <div class="stat-number">15 min</div>
+                        <div class="stat-label">Avg. Prep Time</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Happy Cooks</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Your Personal AI Chef</p>
+            <p class="text-muted">Cook Smarter, Eat Better, Live Healthier</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to search trending recipes
+        function searchTrending(searchTerm) {
+            // Fill the search input with the trending term
+            document.querySelector('input[name="recipe_name"]').value = searchTerm;
+
+            // Submit the form
+            document.querySelector('form[action="{{ url_for('search_recipe') }}"]').submit();
+        }
+
+        // Simple animation for trending cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const trendingCards = document.querySelectorAll('.trending-card');
+
+            trendingCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const recipe = this.querySelector('span').textContent.toLowerCase().trim();
+                    // The searchTrending function will handle the actual search
+                });
+            });
+
+            // Animate stats counter (simplified version)
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(current) + (stat.textContent.includes('+') ? '+' : '');
+                }, 30);
+            });
+        });
+    </script>
+</body>
+</html>

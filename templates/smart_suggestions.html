@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Suggestions - Recipe Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+            --pastel-green: #C1E1C1;
+            --pastel-blue: #B5EAD7;
+            --pastel-purple: #D8BFD8;
+            --pastel-mint: #98FF98;
+            --pastel-lavender: #E6E6FA;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        .custom-btn {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+            border: 2px solid var(--pastel-coral);
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .custom-btn:hover {
+            background-color: var(--pastel-coral);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--pastel-peach);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .search-icon {
+            font-size: 2.8rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+            background: rgba(255, 160, 122, 0.1);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+
+        .search-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .search-input {
+            border-radius: 25px;
+            border: 2px solid var(--pastel-peach);
+            padding: 15px 20px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .search-input:focus {
+            border-color: var(--pastel-coral);
+            box-shadow: 0 0 0 0.25rem rgba(255, 160, 122, 0.25);
+            outline: none;
+        }
+
+        /* Voice Search Animation */
+        .voice-animation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .voice-wave {
+            width: 8px;
+            height: 30px;
+            background: var(--pastel-coral);
+            border-radius: 10px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .voice-wave:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .voice-wave:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .voice-wave:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .voice-wave:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                height: 10px;
+            }
+            50% {
+                height: 40px;
+            }
+        }
+
+        .listening {
+            color: var(--pastel-coral);
+            font-weight: 600;
+        }
+
+        /* Quick Suggestions */
+        .suggestions-section {
+            margin: 40px 0;
+        }
+
+        .suggestion-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .suggestion-tag {
+            background: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 2px solid var(--pastel-peach);
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .suggestion-tag:hover {
+            background: var(--pastel-coral);
+            color: white;
+            border-color: var(--pastel-coral);
+            transform: translateY(-2px);
+        }
+
+        /* Recipe Results */
+        .results-section {
+            margin: 60px 0;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            height: 100%;
+            border: 2px solid transparent;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .recipe-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .recipe-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .recipe-card:hover .recipe-img img {
+            transform: scale(1.05);
+        }
+
+        .recipe-content {
+            padding: 25px;
+        }
+
+        .recipe-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recipe-category {
+            background: var(--pastel-pink);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .recipe-time {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .recipe-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--pastel-coral);
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        /* Voice Controls */
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .voice-btn {
+            background: white;
+            border: 2px solid var(--pastel-peach);
+            color: var(--text-dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .voice-btn:hover {
+            background: var(--pastel-coral);
+            color: white;
+            border-color: var(--pastel-coral);
+            transform: scale(1.1);
+        }
+
+        .voice-btn.active {
+            background: var(--pastel-coral);
+            color: white;
+            border-color: var(--pastel-coral);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 160, 122, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 160, 122, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 160, 122, 0);
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--pastel-peach);
+            margin-bottom: 20px;
+        }
+
+        /* Recipe Details Modal */
+        .recipe-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .recipe-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .recipe-modal-content {
+            background: white;
+            border-radius: 25px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 0;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--pastel-coral);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--pastel-pink);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-coral));
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .modal-header h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-section {
+            margin-bottom: 30px;
+        }
+
+        .modal-section h4 {
+            color: var(--pastel-coral);
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--pastel-peach);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .modal-header h3 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Smart Recipe Discovery</h1>
+            <p class="hero-subtitle">Find your perfect recipe using text search or voice commands. Our AI-powered assistant understands what you're looking for and delivers delicious suggestions instantly!</p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <h2 class="section-title">Search Recipes Your Way</h2>
+
+            <!-- Text Search Card -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="search-card">
+                        <div class="search-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h3 class="search-title">Text Search</h3>
+                        <p class="hero-subtitle">Type any dish name, ingredient, or cuisine to find matching recipes</p>
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control search-input" id="dishName" placeholder="Try 'butter chicken', 'pasta', or 'poori'...">
+                            <button class="btn custom-btn" type="button" onclick="searchDish()">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                        </div>
+
+                        <!-- Quick Suggestions -->
+                        <div class="suggestions-section">
+                            <p class="text-center mb-3">Quick Suggestions:</p>
+                            <div class="suggestion-tags">
+                                <span class="suggestion-tag" onclick="quickSearch('pasta')">Pasta</span>
+                                <span class="suggestion-tag" onclick="quickSearch('chicken biryani')">Chicken Biryani</span>
+                                <span class="suggestion-tag" onclick="quickSearch('pongal')">Pongal</span>
+                                <span class="suggestion-tag" onclick="quickSearch('churros')">Churros</span>
+                                <span class="suggestion-tag" onclick="quickSearch('fruit salad')">Fruit Salad</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voice Search Card -->
+                <div class="col-lg-6">
+                    <div class="search-card">
+                        <div class="search-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h3 class="search-title">Voice Search</h3>
+                        <p class="hero-subtitle">Speak naturally to find recipes. Say things like 'butter chicken', 'pasta', or 'poori'</p>
+
+                        <div class="text-center mb-4">
+                            <div class="voice-controls">
+                                <div class="voice-btn" id="startVoiceBtn" onclick="startVoiceRecognition()">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                                <div class="voice-btn" onclick="stopVoiceRecognition()">
+                                    <i class="fas fa-stop"></i>
+                                </div>
+                                <div class="voice-btn" onclick="playVoiceResponse()">
+                                    <i class="fas fa-volume-up"></i>
+                                </div>
+                            </div>
+
+                            <div id="voiceAnimation" class="voice-animation" style="display: none;">
+                                <div class="voice-wave"></div>
+                                <div class="voice-wave"></div>
+                                <div class="voice-wave"></div>
+                                <div class="voice-wave"></div>
+                                <div class="voice-wave"></div>
+                            </div>
+
+                            <p id="listeningText" class="listening mt-3" style="display: none;">
+                                <i class="fas fa-circle text-success me-2"></i>Listening...
+                            </p>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control search-input" id="voiceCommand" placeholder="Or type your voice command here..." readonly>
+                            <button class="btn custom-btn" type="button" onclick="processVoiceCommand()">
+                                <i class="fas fa-play me-2"></i>Process
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <small class="text-muted">Try saying: 'butter chicken', 'pasta', or 'poori'</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h2 class="section-title" id="resultsTitle">Found Recipes</h2>
+            <div class="row" id="recipeResults"></div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No Recipes Found</h3>
+                <p class="hero-subtitle">We couldn't find recipes matching your search. Try different keywords or use voice search!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Details Modal -->
+    <div class="recipe-modal" id="recipeModal">
+        <div class="recipe-modal-content">
+            <div class="modal-close" id="closeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-header">
+                <h3 id="modalRecipeTitle"></h3>
+                <p id="modalRecipeCategory"></p>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="modal-section">
+                            <h4><i class="fas fa-list-check me-2"></i>Ingredients</h4>
+                            <div id="modalIngredients"></div>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-clock me-2"></i>Nutrition Facts</h4>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="stat-value" id="modalCalories"></div>
+                                    <div class="stat-label">Calories</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-value" id="modalProtein"></div>
+                                    <div class="stat-label">Protein</div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="stat-value" id="modalCarbs"></div>
+                                    <div class="stat-label">Carbs</div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="stat-value" id="modalFats"></div>
+                                    <div class="stat-label">Fats</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="modal-section">
+                            <h4><i class="fas fa-fire me-2"></i>Cooking Instructions</h4>
+                            <div id="modalInstructions"></div>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-info-circle me-2"></i>Details</h4>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="stat-label">Cooking Time</div>
+                                    <div class="stat-value" id="modalTime"></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-label">Serving Size</div>
+                                    <div class="stat-value" id="modalServing"></div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="stat-label">Spice Level</div>
+                                    <div class="stat-value" id="modalSpice"></div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="stat-label">Diet Type</div>
+                                    <div class="stat-value" id="modalDiet"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-book-open me-2"></i>Step-by-Step Guide</h4>
+                    <div id="modalStepByStep"></div>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn custom-btn me-3" onclick="addToFavourites()">
+                        <i class="fas fa-heart me-2"></i>Add to Favourites
+                    </button>
+                    <button class="btn custom-btn me-3" onclick="speakRecipe()">
+                        <i class="fas fa-volume-up me-2"></i>Speak Recipe
+                    </button>
+                    <button class="btn custom-btn" onclick="shareRecipe()">
+                        <i class="fas fa-share-alt me-2"></i>Share Recipe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Your Smart Cooking Companion</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentRecipe = null;
+        let voiceRecognition = null;
+        let isListening = false;
+        let currentVoiceText = '';
+
+        // Quick search function
+        function quickSearch(query) {
+            document.getElementById('dishName').value = query;
+            searchDish();
+        }
+
+        // Search dish by name
+        function searchDish() {
+            const dishName = document.getElementById('dishName').value.trim().toLowerCase();
+            if (!dishName) {
+                alert("Please enter a dish name to search!");
+                return;
+            }
+
+            showLoading(true, "Searching for recipes...");
+
+            fetch('/search_recipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ dish_name: dishName }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                if (data.error) {
+                    showNoResults(data.error);
+                } else {
+                    displayRecipe(data);
+                    speakSearchResult(dishName, data['Food Name']);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showLoading(false);
+                showNoResults("An error occurred while searching. Please try again.");
+            });
+        }
+
+        // Process voice command
+        function processVoiceCommand() {
+            const voiceCommand = document.getElementById('voiceCommand').value.trim().toLowerCase();
+            if (!voiceCommand) {
+                alert("Please speak or type a voice command first!");
+                return;
+            }
+
+            showLoading(true, "Processing voice command...");
+
+            fetch('/voice_search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ voice_command: voiceCommand }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                if (data.error) {
+                    showNoResults(data.error);
+                } else {
+                    displayRecipe(data);
+                    speakSearchResult(voiceCommand, data['Food Name']);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showLoading(false);
+                showNoResults("An error occurred while processing voice command. Please try again.");
+            });
+        }
+
+        // Display recipe details
+        function displayRecipe(recipe) {
+            currentRecipe = recipe;
+
+            const resultsSection = document.getElementById('resultsSection');
+            const recipeResults = document.getElementById('recipeResults');
+            const resultsTitle = document.getElementById('resultsTitle');
+
+            resultsSection.style.display = 'block';
+            resultsTitle.textContent = `Found: ${recipe['Food Name']}`;
+            recipeResults.innerHTML = '';
+
+            // Get appropriate icon based on category
+            let categoryIcon = 'fa-utensils';
+            if (recipe['Category']?.toLowerCase().includes('breakfast')) categoryIcon = 'fa-sun';
+            if (recipe['Category']?.toLowerCase().includes('lunch')) categoryIcon = 'fa-utensils';
+            if (recipe['Category']?.toLowerCase().includes('dinner')) categoryIcon = 'fa-moon';
+            if (recipe['Category']?.toLowerCase().includes('dessert')) categoryIcon = 'fa-ice-cream';
+
+            recipeResults.innerHTML = `
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="recipe-card" onclick="showRecipeDetails()">
+                        <div class="recipe-img">
+                            <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="${recipe['Food Name']}">
+                        </div>
+                        <div class="recipe-content">
+                            <h3 class="recipe-title">${recipe['Food Name']}</h3>
+                            <div class="recipe-meta">
+                                <span class="recipe-category">
+                                    <i class="fas ${categoryIcon} me-2"></i>${recipe['Category'] || 'General'}
+                                </span>
+                                <span class="recipe-time">
+                                    <i class="fas fa-clock me-1"></i>${recipe['Cooking Time (mins)'] || '30'} mins
+                                </span>
+                            </div>
+                            <div class="recipe-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${recipe['Calories'] || '250'}</div>
+                                    <div class="stat-label">CALORIES</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${recipe['Protein (g)'] || '15'}g</div>
+                                    <div class="stat-label">PROTEIN</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${recipe['Serving Size'] || '2'}</div>
+                                    <div class="stat-label">SERVES</div>
+                                </div>
+                            </div>
+                            <button class="btn custom-btn w-100">
+                                <i class="fas fa-book-open me-2"></i>View Full Recipe
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('emptyState').style.display = 'none';
+        }
+
+        // Show recipe details in modal
+        function showRecipeDetails() {
+            if (!currentRecipe) return;
+
+            // Set modal content
+            document.getElementById('modalRecipeTitle').textContent = currentRecipe['Food Name'];
+            document.getElementById('modalRecipeCategory').textContent = `${currentRecipe['Category']} • ${currentRecipe['Dietary Preference']}`;
+
+            // Format ingredients
+            const ingredients = currentRecipe['Ingredients'] || '';
+            const ingredientsList = ingredients.split(',').map(ing => `<li>${ing.trim()}</li>`).join('');
+            document.getElementById('modalIngredients').innerHTML = `<ul class="article-list">${ingredientsList}</ul>`;
+
+            // Format instructions
+            const instructions = currentRecipe['Cooking Instructions'] || '';
+            document.getElementById('modalInstructions').innerHTML = `<p class="article-text">${instructions}</p>`;
+
+            // Set nutrition facts
+            document.getElementById('modalCalories').textContent = currentRecipe['Calories'] || 'N/A';
+            document.getElementById('modalProtein').textContent = `${currentRecipe['Protein (g)'] || '0'}g`;
+            document.getElementById('modalCarbs').textContent = `${currentRecipe['Carbohydrates (g)'] || '0'}g`;
+            document.getElementById('modalFats').textContent = `${currentRecipe['Fats (g)'] || '0'}g`;
+
+            // Set details
+            document.getElementById('modalTime').textContent = `${currentRecipe['Cooking Time (mins)'] || '30'} min`;
+            document.getElementById('modalServing').textContent = currentRecipe['Serving Size'] || '2';
+            document.getElementById('modalSpice').textContent = currentRecipe['Spice Level'] || 'Medium';
+            document.getElementById('modalDiet').textContent = currentRecipe['Dietary Preference'] || 'General';
+
+            // Set step-by-step guide
+            const stepByStep = currentRecipe['Step-by-Step Cooking Guide'] || '';
+            document.getElementById('modalStepByStep').innerHTML = `<p class="article-text">${stepByStep}</p>`;
+
+            // Show modal
+            document.getElementById('recipeModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Voice recognition
+        function startVoiceRecognition() {
+            if (isListening) return;
+
+            try {
+                voiceRecognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                voiceRecognition.lang = 'en-US';
+                voiceRecognition.continuous = false;
+                voiceRecognition.interimResults = false;
+
+                voiceRecognition.onstart = function() {
+                    isListening = true;
+                    document.getElementById('startVoiceBtn').classList.add('active');
+                    document.getElementById('voiceAnimation').style.display = 'flex';
+                    document.getElementById('listeningText').style.display = 'block';
+                };
+
+                voiceRecognition.onresult = function(event) {
+                    const spokenText = event.results[0][0].transcript.trim().toLowerCase();
+                    currentVoiceText = spokenText;
+                    document.getElementById('voiceCommand').value = spokenText;
+
+                    // Auto-process if it sounds like a recipe request
+                    if (spokenText.includes('find') || spokenText.includes('search') ||
+                        spokenText.includes('recipe') || spokenText.includes('dish')) {
+                        setTimeout(() => processVoiceCommand(), 500);
+                    }
+                };
+
+                voiceRecognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    stopVoiceRecognition();
+                    alert('Voice recognition failed. Please try again or type your command.');
+                };
+
+                voiceRecognition.onend = function() {
+                    stopVoiceRecognition();
+                };
+
+                voiceRecognition.start();
+            } catch (error) {
+                console.error('Speech recognition not supported:', error);
+                alert('Voice recognition is not supported in your browser. Please type your search instead.');
+            }
+        }
+
+        function stopVoiceRecognition() {
+            if (voiceRecognition && isListening) {
+                voiceRecognition.stop();
+            }
+            isListening = false;
+            document.getElementById('startVoiceBtn').classList.remove('active');
+            document.getElementById('voiceAnimation').style.display = 'none';
+            document.getElementById('listeningText').style.display = 'none';
+        }
+
+        // Speak recipe
+        function speakRecipe() {
+            if (!currentRecipe) return;
+
+            const speech = new SpeechSynthesisUtterance();
+            speech.lang = 'en-US';
+            speech.rate = 0.9;
+            speech.pitch = 1;
+
+            const recipeText = `
+                Here's the recipe for ${currentRecipe['Food Name']}.
+                It's a ${currentRecipe['Category']} dish that serves ${currentRecipe['Serving Size']} people.
+                The cooking time is approximately ${currentRecipe['Cooking Time (mins)']} minutes.
+                Ingredients needed: ${currentRecipe['Ingredients']}.
+                Cooking instructions: ${currentRecipe['Cooking Instructions']}.
+                Step by step guide: ${currentRecipe['Step-by-Step Cooking Guide']}.
+            `;
+
+            speech.text = recipeText;
+            window.speechSynthesis.speak(speech);
+        }
+
+        function speakSearchResult(searchTerm, foundRecipe) {
+            const speech = new SpeechSynthesisUtterance();
+            speech.lang = 'en-US';
+            speech.rate = 0.9;
+            speech.pitch = 1;
+
+            speech.text = `Found a recipe for ${foundRecipe} based on your search for ${searchTerm}.`;
+            window.speechSynthesis.speak(speech);
+        }
+
+        function playVoiceResponse() {
+            if (currentVoiceText) {
+                const speech = new SpeechSynthesisUtterance();
+                speech.lang = 'en-US';
+                speech.text = `You said: ${currentVoiceText}`;
+                window.speechSynthesis.speak(speech);
+            } else {
+                alert("No voice command recorded yet. Please use voice search first.");
+            }
+        }
+
+        // Add to favourites
+        function addToFavourites() {
+            if (!currentRecipe) return;
+
+            fetch('/add_to_favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `dish_name=${encodeURIComponent(currentRecipe['Food Name'])}`,
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(`${currentRecipe['Food Name']} has been added to your favourites!`);
+                } else {
+                    alert('Failed to add to favourites. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+
+        function shareRecipe() {
+            if (!currentRecipe) return;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: currentRecipe['Food Name'],
+                    text: `Check out this delicious ${currentRecipe['Food Name']} recipe!`,
+                    url: window.location.href,
+                });
+            } else {
+                navigator.clipboard.writeText(`${currentRecipe['Food Name']} - ${window.location.href}`);
+                alert('Recipe link copied to clipboard!');
+            }
+        }
+
+        // Utility functions
+        function showLoading(show, message = '') {
+            if (show) {
+                document.getElementById('resultsSection').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'none';
+                // You could add a loading spinner here
+            }
+        }
+
+        function showNoResults(message) {
+            const emptyState = document.getElementById('emptyState');
+            emptyState.innerHTML = `
+                <div class="empty-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No Recipes Found</h3>
+                <p class="hero-subtitle">${message}</p>
+            `;
+            emptyState.style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('recipeResults').innerHTML = '';
+        }
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('recipeModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside content
+        document.getElementById('recipeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Press Escape to close modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('recipeModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Enter key in search field
+            if (e.key === 'Enter' && document.getElementById('dishName').matches(':focus')) {
+                searchDish();
+            }
+        });
+
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+</body>
+</html>

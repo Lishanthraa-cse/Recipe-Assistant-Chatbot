@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredient Search - Recipe Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+            --pastel-green: #C1E1C1;
+            --pastel-blue: #B5EAD7;
+            --pastel-purple: #D8BFD8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        .custom-btn {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+            border: 2px solid var(--pastel-coral);
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .custom-btn:hover {
+            background-color: var(--pastel-coral);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--pastel-peach);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .search-icon {
+            font-size: 2.8rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+            background: rgba(255, 160, 122, 0.1);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+
+        .search-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .ingredient-input {
+            border-radius: 25px;
+            border: 2px solid var(--pastel-peach);
+            padding: 15px 20px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .ingredient-input:focus {
+            border-color: var(--pastel-coral);
+            box-shadow: 0 0 0 0.25rem rgba(255, 160, 122, 0.25);
+            outline: none;
+        }
+
+        /* Ingredient Tags */
+        .ingredient-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            min-height: 60px;
+            padding: 10px;
+            border: 2px dashed var(--pastel-peach);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .ingredient-tag {
+            background: var(--pastel-green);
+            color: var(--text-dark);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tag-close {
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .tag-close:hover {
+            color: var(--pastel-coral);
+        }
+
+        /* Ingredient Counter */
+        .counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .counter-item {
+            text-align: center;
+        }
+
+        .counter-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--pastel-coral);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .counter-label {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        /* Popular Ingredients */
+        .popular-section {
+            margin: 40px 0;
+        }
+
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .popular-item {
+            background: white;
+            border: 2px solid var(--pastel-peach);
+            border-radius: 15px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .popular-item:hover {
+            background: var(--pastel-coral);
+            color: white;
+            border-color: var(--pastel-coral);
+            transform: translateY(-3px);
+        }
+
+        .popular-item i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Recipe Results */
+        .results-section {
+            margin: 60px 0;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            height: 100%;
+            border: 2px solid transparent;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .recipe-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .recipe-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .recipe-card:hover .recipe-img img {
+            transform: scale(1.05);
+        }
+
+        .recipe-content {
+            padding: 25px;
+        }
+
+        .recipe-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recipe-category {
+            background: var(--pastel-pink);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .recipe-time {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .recipe-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--pastel-coral);
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .ingredient-match {
+            background: var(--pastel-green);
+            color: var(--text-dark);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--pastel-peach);
+            margin-bottom: 20px;
+        }
+
+        /* Max Ingredients Warning */
+        .max-warning {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Recipe Details Modal */
+        .recipe-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .recipe-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .recipe-modal-content {
+            background: white;
+            border-radius: 25px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 0;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--pastel-coral);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--pastel-pink);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-coral));
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .modal-header h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-recipe-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-meta-item {
+            text-align: center;
+        }
+
+        .modal-meta-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .modal-meta-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-section {
+            margin-bottom: 30px;
+        }
+
+        .modal-section-title {
+            color: var(--pastel-coral);
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--pastel-cream);
+        }
+
+        .ingredients-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .ingredients-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+
+        .instructions-list {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .instructions-list li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .matching-ingredients {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .modal-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: 2px solid var(--pastel-peach);
+            color: var(--text-dark);
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-action-btn:hover {
+            background: var(--pastel-peach);
+            transform: translateY(-3px);
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner {
+            border: 4px solid var(--pastel-cream);
+            border-top: 4px solid var(--pastel-coral);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .modal-header h3 {
+                font-size: 2rem;
+            }
+
+            .popular-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .counter {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .modal-recipe-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .modal-action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">What's In Your Kitchen?</h1>
+            <p class="hero-subtitle">Add up to 4 ingredients you have, and we'll find the perfect recipes you can make right now! No grocery trip needed.</p>
+
+            <div class="counter">
+                <div class="counter-item">
+                    <div class="counter-number" id="ingredientCount">0</div>
+                    <div class="counter-label">Ingredients Added</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter-number" id="maxCount">4</div>
+                    <div class="counter-label">Maximum Allowed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <h2 class="section-title">Enter Your Ingredients</h2>
+
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="search-card">
+                        <div class="search-icon">
+                            <i class="fas fa-carrot"></i>
+                        </div>
+                        <h3 class="search-title">Add Ingredients (Max: 4)</h3>
+                        <p class="hero-subtitle">Type or select ingredients below. You can add up to 4 ingredients per search.</p>
+
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control ingredient-input" id="ingredientInput"
+                                   placeholder="Type an ingredient (e.g., 'rice') then press Enter">
+                            <button class="btn custom-btn" type="button" onclick="addIngredient()" id="addButton">
+                                <i class="fas fa-plus me-2"></i>Add
+                            </button>
+                        </div>
+
+                        <!-- Max Ingredients Warning -->
+                        <div class="max-warning" id="maxWarning">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            Maximum 4 ingredients reached. Remove some to add more.
+                        </div>
+
+                        <!-- Ingredient Tags Display -->
+                        <div class="ingredient-tags" id="ingredientTags">
+                            <p class="text-muted text-center w-100" id="emptyTagsMessage">
+                                No ingredients added yet. Start typing or select from popular ingredients below!
+                            </p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="text-center mt-4">
+                            <button class="btn custom-btn px-5 py-3 me-3" onclick="searchByIngredients()" id="searchButton">
+                                <i class="fas fa-search me-2"></i>Find Recipes
+                            </button>
+                            <button class="btn custom-btn px-5 py-3" onclick="clearIngredients()" style="background: var(--pastel-cream);">
+                                <i class="fas fa-trash-alt me-2"></i>Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Ingredients -->
+            <div class="popular-section">
+                <h4 class="text-center mb-4" style="color: var(--pastel-coral);">Popular Ingredients</h4>
+                <div class="popular-grid">
+                    <div class="popular-item" onclick="addPopularIngredient('rice')">
+                        <i class="fas fa-bowl-rice"></i>
+                        <span>Rice</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('chicken')">
+                        <i class="fas fa-drumstick-bite"></i>
+                        <span>Chicken</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('tomato')">
+                        <i class="fas fa-apple-alt"></i>
+                        <span>Tomato</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('onion')">
+                        <i class="fas fa-lemon"></i>
+                        <span>Onion</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('potato')">
+                        <i class="fas fa-apple-alt"></i>
+                        <span>Potato</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('egg')">
+                        <i class="fas fa-egg"></i>
+                        <span>Egg</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('coconut')">
+                        <i class="fas fa-leaf"></i>
+                        <span>Coconut</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('milk')">
+                        <i class="fas fa-wine-bottle"></i>
+                        <span>Milk</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('flour')">
+                        <i class="fas fa-wheat-awn"></i>
+                        <span>Flour</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('butter')">
+                        <i class="fas fa-cookie-bite"></i>
+                        <span>Butter</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('cheese')">
+                        <i class="fas fa-cheese"></i>
+                        <span>Cheese</span>
+                    </div>
+                    <div class="popular-item" onclick="addPopularIngredient('yogurt')">
+                        <i class="fas fa-blender"></i>
+                        <span>Yogurt</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h2 class="section-title" id="resultsTitle">Recipes You Can Make</h2>
+            <p class="text-center mb-4 hero-subtitle" id="matchCount">Found recipes matching your ingredients</p>
+
+            <!-- Loading Spinner -->
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner"></div>
+                <p>Finding delicious recipes for you...</p>
+            </div>
+
+            <div class="row" id="recipeResults"></div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No Recipes Found</h3>
+                <p class="hero-subtitle" id="emptyStateMessage">We couldn't find recipes with those ingredients. Try adding more ingredients or using different ones!</p>
+                <button class="btn custom-btn mt-3" onclick="clearIngredients()">
+                    <i class="fas fa-redo me-2"></i>Try Different Ingredients
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Details Modal -->
+    <div class="recipe-modal" id="recipeModal">
+        <div class="recipe-modal-content">
+            <div class="modal-close" id="closeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-header">
+                <h3 id="modalRecipeTitle"></h3>
+                <div class="modal-recipe-meta" id="modalRecipeMeta"></div>
+            </div>
+            <div class="modal-body">
+                <!-- Ingredients Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-shopping-basket"></i> Ingredients
+                    </h4>
+                    <ul class="ingredients-list" id="modalIngredients">
+                        <!-- Ingredients will be populated here -->
+                    </ul>
+
+                    <!-- Matching Ingredients -->
+                    <div style="margin-top: 20px;">
+                        <p style="color: var(--pastel-coral); font-weight: 600;">
+                            <i class="fas fa-check-circle me-2"></i>Matches your ingredients:
+                        </p>
+                        <div class="matching-ingredients" id="modalMatchingIngredients">
+                            <!-- Matching ingredients will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructions Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-list-ol"></i> Cooking Instructions
+                    </h4>
+                    <ol class="instructions-list" id="modalInstructions">
+                        <!-- Instructions will be populated here -->
+                    </ol>
+                </div>
+
+                <!-- Nutritional Info Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-chart-pie"></i> Nutritional Information
+                    </h4>
+                    <div class="modal-recipe-meta">
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-value" id="modalCalories"></div>
+                            <div class="modal-meta-label">Calories</div>
+                        </div>
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-value" id="modalServingSize"></div>
+                            <div class="modal-meta-label">Serving Size</div>
+                        </div>
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-value" id="modalCookingTime"></div>
+                            <div class="modal-meta-label">Cooking Time</div>
+                        </div>
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-value" id="modalDifficulty"></div>
+                            <div class="modal-meta-label">Difficulty</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="modal-actions">
+                    <button class="modal-action-btn" onclick="saveToFavorites()">
+                        <i class="fas fa-heart"></i> Save to Favourites
+                    </button>
+                    <button class="modal-action-btn" onclick="closeRecipeModal()">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Cook Smarter With What You Have</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Global variables
+        let ingredients = [];
+        const MAX_INGREDIENTS = 4;
+        let currentRecipe = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateIngredientCount();
+            updateUI();
+
+            // Press Enter to add ingredient
+            document.getElementById('ingredientInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addIngredient();
+                }
+            });
+
+            // Close modal when clicking close button
+            document.getElementById('closeModal').addEventListener('click', closeRecipeModal);
+
+            // Close modal when clicking outside
+            document.getElementById('recipeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeRecipeModal();
+                }
+            });
+        });
+
+        // Add ingredient from input
+        function addIngredient() {
+            if (ingredients.length >= MAX_INGREDIENTS) {
+                showMaxWarning();
+                return;
+            }
+
+            const input = document.getElementById('ingredientInput');
+            const ingredient = input.value.trim().toLowerCase();
+
+            if (ingredient) {
+                // Check if ingredient already exists
+                if (!ingredients.includes(ingredient)) {
+                    ingredients.push(ingredient);
+                    updateIngredientTags();
+                    updateIngredientCount();
+                    updateUI();
+                    input.value = '';
+                    input.focus();
+                } else {
+                    alert(`"${ingredient}" is already added!`);
+                }
+            }
+        }
+
+        // Add popular ingredient
+        function addPopularIngredient(ingredient) {
+            if (ingredients.length >= MAX_INGREDIENTS) {
+                showMaxWarning();
+                return;
+            }
+
+            // Check if ingredient already exists
+            if (!ingredients.includes(ingredient)) {
+                ingredients.push(ingredient);
+                updateIngredientTags();
+                updateIngredientCount();
+                updateUI();
+            } else {
+                alert(`"${ingredient}" is already added!`);
+            }
+        }
+
+        // Update ingredient tags display
+        function updateIngredientTags() {
+            const tagsContainer = document.getElementById('ingredientTags');
+            const emptyMessage = document.getElementById('emptyTagsMessage');
+
+            if (ingredients.length === 0) {
+                emptyMessage.style.display = 'block';
+                tagsContainer.innerHTML = '';
+                tagsContainer.appendChild(emptyMessage);
+            } else {
+                emptyMessage.style.display = 'none';
+                tagsContainer.innerHTML = '';
+
+                ingredients.forEach((ingredient, index) => {
+                    const tag = document.createElement('span');
+                    tag.className = 'ingredient-tag';
+                    tag.innerHTML = `
+                        <i class="fas fa-carrot"></i>
+                        ${ingredient}
+                        <span class="tag-close" onclick="removeIngredient(${index})">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    `;
+                    tagsContainer.appendChild(tag);
+                });
+            }
+        }
+
+        // Remove ingredient
+        function removeIngredient(index) {
+            ingredients.splice(index, 1);
+            updateIngredientTags();
+            updateIngredientCount();
+            updateUI();
+            hideMaxWarning();
+        }
+
+        // Clear all ingredients
+        function clearIngredients() {
+            ingredients = [];
+            updateIngredientTags();
+            updateIngredientCount();
+            updateUI();
+            hideMaxWarning();
+
+            // Hide results section
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('ingredientInput').focus();
+        }
+
+        // Update ingredient count display
+        function updateIngredientCount() {
+            document.getElementById('ingredientCount').textContent = ingredients.length;
+        }
+
+        // Update UI state
+        function updateUI() {
+            const addButton = document.getElementById('addButton');
+            const searchButton = document.getElementById('searchButton');
+            const maxWarning = document.getElementById('maxWarning');
+
+            if (ingredients.length >= MAX_INGREDIENTS) {
+                addButton.disabled = true;
+                addButton.style.opacity = '0.6';
+                addButton.style.cursor = 'not-allowed';
+                searchButton.disabled = false;
+                showMaxWarning();
+            } else {
+                addButton.disabled = false;
+                addButton.style.opacity = '1';
+                addButton.style.cursor = 'pointer';
+                searchButton.disabled = ingredients.length === 0;
+                hideMaxWarning();
+            }
+
+            searchButton.disabled = ingredients.length === 0;
+            searchButton.style.opacity = ingredients.length === 0 ? '0.6' : '1';
+            searchButton.style.cursor = ingredients.length === 0 ? 'not-allowed' : 'pointer';
+        }
+
+        // Show max ingredients warning
+        function showMaxWarning() {
+            document.getElementById('maxWarning').style.display = 'block';
+        }
+
+        // Hide max ingredients warning
+        function hideMaxWarning() {
+            document.getElementById('maxWarning').style.display = 'none';
+        }
+
+        // Search by ingredients
+        function searchByIngredients() {
+            if (ingredients.length === 0) {
+                alert("Please add some ingredients first!");
+                return;
+            }
+
+            if (ingredients.length > MAX_INGREDIENTS) {
+                alert(`Maximum ${MAX_INGREDIENTS} ingredients allowed. Please remove some ingredients.`);
+                return;
+            }
+
+            showLoading(true);
+            const ingredientsString = ingredients.join(',');
+
+            fetch('/search_by_ingredients', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `ingredients=${encodeURIComponent(ingredientsString)}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                if (data.error) {
+                    showNoResults(data.error);
+                } else if (data.length === 0) {
+                    showNoResults("No recipes found with those ingredients.");
+                } else {
+                    displayResults(data);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showLoading(false);
+                showNoResults("An error occurred while searching. Please try again.");
+            });
+        }
+
+        // Display results
+        function displayResults(recipes) {
+            const resultsSection = document.getElementById('resultsSection');
+            const recipeResults = document.getElementById('recipeResults');
+            const resultsTitle = document.getElementById('resultsTitle');
+            const matchCount = document.getElementById('matchCount');
+
+            resultsSection.style.display = 'block';
+            resultsTitle.textContent = `Recipes You Can Make`;
+            matchCount.textContent = `Found ${recipes.length} recipe${recipes.length === 1 ? '' : 's'} with your ${ingredients.length} ingredient${ingredients.length === 1 ? '' : 's'}`;
+
+            recipeResults.innerHTML = '';
+
+            recipes.forEach((recipe, index) => {
+                const recipeCard = createRecipeCard(recipe, index);
+                recipeResults.appendChild(recipeCard);
+            });
+
+            document.getElementById('emptyState').style.display = 'none';
+
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+            // Animate cards
+            animateCards();
+        }
+
+        // Create recipe card
+        function createRecipeCard(recipe, index) {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-6 mb-4';
+
+            // Get recipe ingredients and match with user ingredients
+            const recipeIngredients = recipe['Ingredients'] ?
+                recipe['Ingredients'].toLowerCase().split(',').map(ing => ing.trim()) : [];
+
+            const matchedIngredients = recipeIngredients.filter(recipeIng => {
+                return ingredients.some(userIng => recipeIng.includes(userIng));
+            });
+
+            const matchPercentage = recipeIngredients.length > 0 ?
+                Math.round((matchedIngredients.length / Math.min(recipeIngredients.length, ingredients.length)) * 100) : 0;
+
+            // Get appropriate icon based on category
+            let categoryIcon = 'fa-utensils';
+            if (recipe['Category']?.toLowerCase().includes('breakfast')) categoryIcon = 'fa-sun';
+            if (recipe['Category']?.toLowerCase().includes('lunch')) categoryIcon = 'fa-utensils';
+            if (recipe['Category']?.toLowerCase().includes('dinner')) categoryIcon = 'fa-moon';
+            if (recipe['Category']?.toLowerCase().includes('dessert')) categoryIcon = 'fa-ice-cream';
+
+            col.innerHTML = `
+                <div class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="${recipe['Food Name']}">
+                        <div style="position: absolute; top: 15px; right: 15px; background: rgba(255, 160, 122, 0.9); color: white; padding: 5px 10px; border-radius: 15px; font-weight: 600;">
+                            ${matchPercentage}% Match
+                        </div>
+                    </div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">${recipe['Food Name']}</h3>
+                        <div class="recipe-meta">
+                            <span class="recipe-category">
+                                <i class="fas ${categoryIcon} me-2"></i>${recipe['Category'] || 'General'}
+                            </span>
+                            <span class="recipe-time">
+                                <i class="fas fa-clock me-1"></i>${recipe['Cooking Time (mins)'] || '30'} mins
+                            </span>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Matches your ingredients:</small><br>
+                            ${matchedIngredients.slice(0, 3).map(ing =>
+                                `<span class="ingredient-match">${ing}</span>`
+                            ).join('')}
+                            ${matchedIngredients.length > 3 ?
+                                `<span class="ingredient-match">+${matchedIngredients.length - 3} more</span>` : ''}
+                        </div>
+
+                        <div class="recipe-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${recipe['Calories'] || '250'}</div>
+                                <div class="stat-label">CALORIES</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${recipe['Serving Size'] || '2'}</div>
+                                <div class="stat-label">SERVES</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${ingredients.length}/${MAX_INGREDIENTS}</div>
+                                <div class="stat-label">INGREDIENTS</div>
+                            </div>
+                        </div>
+                        <button class="btn custom-btn w-100" onclick="showRecipeDetails(${JSON.stringify(recipe).replace(/"/g, '&quot;')})">
+                            <i class="fas fa-book-open me-2"></i>View Recipe
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            return col;
+        }
+
+        // Show recipe details in modal
+        function showRecipeDetails(recipe) {
+            currentRecipe = recipe;
+
+            // Update modal title
+            document.getElementById('modalRecipeTitle').textContent = recipe['Food Name'];
+
+            // Update recipe meta
+            const metaContainer = document.getElementById('modalRecipeMeta');
+            metaContainer.innerHTML = `
+                <div class="modal-meta-item">
+                    <div class="modal-meta-value">${recipe['Category'] || 'General'}</div>
+                    <div class="modal-meta-label">Category</div>
+                </div>
+                <div class="modal-meta-item">
+                    <div class="modal-meta-value">${recipe['Cooking Time (mins)'] || '30'} mins</div>
+                    <div class="modal-meta-label">Cooking Time</div>
+                </div>
+            `;
+
+            // Update ingredients
+            const ingredientsList = document.getElementById('modalIngredients');
+            ingredientsList.innerHTML = '';
+
+            const recipeIngredients = recipe['Ingredients'] ?
+                recipe['Ingredients'].split(',').map(ing => ing.trim()) : ['No ingredients listed'];
+
+            recipeIngredients.forEach(ingredient => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-check-circle" style="color: var(--pastel-green);"></i> ${ingredient}`;
+                ingredientsList.appendChild(li);
+            });
+
+            // Update matching ingredients
+            const matchingContainer = document.getElementById('modalMatchingIngredients');
+            matchingContainer.innerHTML = '';
+
+            if (recipe['Ingredients']) {
+                const recipeIngList = recipe['Ingredients'].toLowerCase().split(',').map(ing => ing.trim());
+                const matchedIngredients = recipeIngList.filter(recipeIng => {
+                    return ingredients.some(userIng => recipeIng.includes(userIng));
+                });
+
+                matchedIngredients.forEach(ing => {
+                    const span = document.createElement('span');
+                    span.className = 'ingredient-match';
+                    span.textContent = ing;
+                    matchingContainer.appendChild(span);
+                });
+            }
+
+            // Update instructions
+            const instructionsList = document.getElementById('modalInstructions');
+            instructionsList.innerHTML = '';
+
+            const instructions = recipe['Cooking Instructions'] ?
+                recipe['Cooking Instructions'].split('.')
+                    .filter(step => step.trim().length > 0)
+                    .map(step => step.trim()) :
+                ['No instructions available. Please refer to general cooking guidelines.'];
+
+            instructions.forEach((instruction, index) => {
+                const li = document.createElement('li');
+                li.textContent = instruction;
+                instructionsList.appendChild(li);
+            });
+
+            // Update nutritional info
+            document.getElementById('modalCalories').textContent = recipe['Calories'] || 'Not specified';
+            document.getElementById('modalServingSize').textContent = recipe['Serving Size'] || 'Not specified';
+            document.getElementById('modalCookingTime').textContent = `${recipe['Cooking Time (mins)'] || '30'} mins`;
+            document.getElementById('modalDifficulty').textContent = recipe['Difficulty'] || 'Medium';
+
+            // Show modal
+            document.getElementById('recipeModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close recipe modal
+        function closeRecipeModal() {
+            document.getElementById('recipeModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Save to favourites
+        function saveToFavorites() {
+            if (!currentRecipe) {
+                alert('No recipe selected to save!');
+                return;
+            }
+
+            const recipeName = currentRecipe['Food Name'];
+
+            fetch('/add_to_favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `dish_name=${encodeURIComponent(recipeName)}`,
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(`✓ "${recipeName}" has been added to your favourites!`);
+                    closeRecipeModal();
+                } else {
+                    alert('Failed to add to favourites. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+
+        // Utility functions
+        function showLoading(show) {
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const recipeResults = document.getElementById('recipeResults');
+            const emptyState = document.getElementById('emptyState');
+
+            if (show) {
+                loadingSpinner.style.display = 'block';
+                recipeResults.innerHTML = '';
+                emptyState.style.display = 'none';
+            } else {
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        function showNoResults(message) {
+            const emptyState = document.getElementById('emptyState');
+            emptyState.innerHTML = `
+                <div class="empty-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No Recipes Found</h3>
+                <p class="hero-subtitle" id="emptyStateMessage">${message}</p>
+                <button class="btn custom-btn mt-3" onclick="clearIngredients()">
+                    <i class="fas fa-redo me-2"></i>Try Different Ingredients
+                </button>
+            `;
+            emptyState.style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('recipeResults').innerHTML = '';
+        }
+
+        function animateCards() {
+            const cards = document.querySelectorAll('.recipe-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+    </script>
+</body>
+</html>

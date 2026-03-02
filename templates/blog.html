@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Blog - Recipe Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+            --pastel-green: #C1E1C1;
+            --pastel-blue: #B5EAD7;
+            --pastel-purple: #D8BFD8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        .custom-btn {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+            border: 2px solid var(--pastel-coral);
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .custom-btn:hover {
+            background-color: var(--pastel-coral);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Blog Cards */
+        .blog-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--pastel-peach);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            height: 100%;
+            border: 2px solid transparent;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .blog-category {
+            display: inline-block;
+            background: var(--pastel-pink);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 2;
+        }
+
+        .blog-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .blog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .blog-card:hover .blog-img img {
+            transform: scale(1.05);
+        }
+
+        .blog-content {
+            padding: 25px;
+        }
+
+        .blog-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .blog-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--pastel-peach);
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--pastel-coral);
+            font-size: 0.9rem;
+        }
+
+        .blog-date {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        /* Article Modal */
+        .article-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .article-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .article-content {
+            background: white;
+            border-radius: 25px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 0;
+            position: relative;
+        }
+
+        .article-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--pastel-coral);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .article-close:hover {
+            background: var(--pastel-pink);
+            transform: rotate(90deg);
+        }
+
+        .article-header {
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-coral));
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .article-header h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .article-body {
+            padding: 40px;
+        }
+
+        .article-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .article-text {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .article-list {
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .article-list li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .article-quote {
+            background: var(--pastel-cream);
+            border-left: 5px solid var(--pastel-coral);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background: rgba(255, 250, 240, 0.9);
+            border-radius: 25px;
+            padding: 50px;
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter-title {
+            color: var(--pastel-coral);
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .article-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Cooking Insights & Recipes</h1>
+            <p class="hero-subtitle">Discover expert tips, delicious recipes, and cooking secrets from professional chefs and food enthusiasts. Your ultimate guide to culinary excellence!</p>
+        </div>
+
+        <!-- Blog Section -->
+        <div class="blog-section">
+            <h2 class="section-title">Latest Articles</h2>
+
+            <div class="row">
+                <!-- Blog Post 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">Breakfast & Healthy</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Breakfast Recipes">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">5 Easy & Healthy Breakfast Recipes Under 10 Minutes</h3>
+                            <p class="blog-excerpt">Start your day right with these quick, nutritious breakfast ideas that will keep you energized without the morning rush...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Jones" class="author-img">
+                                    <div class="author-name">Sarah Jones</div>
+                                </div>
+                                <div class="blog-date">March 2025</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="1">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">Meal Prep</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Meal Prep">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">How to Meal Prep Like a Pro: Save 10+ Hours Weekly</h3>
+                            <p class="blog-excerpt">Master the art of meal prepping with these strategic tips that will save you time, money, and help you eat healthier throughout the week...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="John Carter" class="author-img">
+                                    <div class="author-name">John Carter</div>
+                                </div>
+                                <div class="blog-date">May 2024</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="2">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">Indian Spices</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Indian Spices">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">Top 10 Essential Indian Spices & Their Magical Uses</h3>
+                            <p class="blog-excerpt">Unlock the secrets of Indian cooking with these essential spices. Learn how to use them to create authentic flavors in your kitchen...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Sharma" class="author-img">
+                                    <div class="author-name">Priya Sharma</div>
+                                </div>
+                                <div class="blog-date">December 2024</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="3">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 4 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">Healthy Desserts</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1519915028121-7d3463d20b13?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Healthy Desserts">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">Guilt-Free Desserts: Healthy Sweet Treats You'll Love</h3>
+                            <p class="blog-excerpt">Satisfy your sweet tooth without the guilt! Discover delicious desserts made with natural sweeteners and wholesome ingredients...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Emily Roberts" class="author-img">
+                                    <div class="author-name">Emily Roberts</div>
+                                </div>
+                                <div class="blog-date">April 2024</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="4">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 5 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">Baking Science</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1568254183919-78a4f43a2877?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Baking Science">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">The Science Behind Perfect Baking Every Time</h3>
+                            <p class="blog-excerpt">Understand the chemistry of baking to achieve perfect cakes, breads, and pastries. Learn why precise measurements matter...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Michael Lee" class="author-img">
+                                    <div class="author-name">Michael Lee</div>
+                                </div>
+                                <div class="blog-date">October 2024</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="5">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 6 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">Cooking Tips</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cooking Mistakes">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">7 Common Cooking Mistakes & How to Avoid Them</h3>
+                            <p class="blog-excerpt">From overcrowding pans to improper seasoning, learn how to avoid these common kitchen errors and elevate your cooking skills...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="David Kim" class="author-img">
+                                    <div class="author-name">David Kim</div>
+                                </div>
+                                <div class="blog-date">January 2025</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="6">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 7 - NEW ARTICLE -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">Sustainability</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Zero Waste Cooking">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">Zero-Waste Kitchen: How to Reduce Food Waste by 80%</h3>
+                            <p class="blog-excerpt">Transform your kitchen habits and save money while helping the planet. Learn innovative ways to use every part of your ingredients...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Lisa Green" class="author-img">
+                                    <div class="author-name">Lisa Green</div>
+                                </div>
+                                <div class="blog-date">February 2025</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="7">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 8 - NEW ARTICLE -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">Fermentation</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Fermented Foods">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">The Art of Fermentation: Boost Gut Health with DIY Probiotics</h3>
+                            <p class="blog-excerpt">Discover how to make your own sauerkraut, kimchi, kefir, and kombucha at home. Simple techniques for delicious, gut-friendly foods...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Robert Chen" class="author-img">
+                                    <div class="author-name">Robert Chen</div>
+                                </div>
+                                <div class="blog-date">November 2024</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="8">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 9 - NEW ARTICLE -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-category">International Cuisine</div>
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mediterranean Diet">
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">Mediterranean Diet Secrets: Why It's Ranked #1 for Health</h3>
+                            <p class="blog-excerpt">Explore the principles of the Mediterranean diet and learn authentic recipes that promote longevity, heart health, and delicious eating...</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="Maria Rossi" class="author-img">
+                                    <div class="author-name">Maria Rossi</div>
+                                </div>
+                                <div class="blog-date">September 2024</div>
+                            </div>
+                            <button class="btn custom-btn read-more-btn" data-article="9">
+                                <i class="fas fa-book-open me-2"></i>Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+            <h3 class="newsletter-title">Stay Updated with Our Latest Recipes & Tips</h3>
+            <p class="hero-subtitle">Subscribe to our newsletter and get weekly cooking inspiration delivered to your inbox.</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Enter your email address" style="border-radius: 25px 0 0 25px; border: 2px solid var(--pastel-peach);">
+                        <button class="btn custom-btn" type="button" style="border-radius: 0 25px 25px 0;">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article Modal -->
+    <div class="article-modal" id="articleModal">
+        <div class="article-content">
+            <div class="article-close" id="closeArticle">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="article-header">
+                <h2 id="articleTitle"></h2>
+                <p id="articleMeta"></p>
+            </div>
+            <div class="article-body">
+                <img id="articleImage" src="" alt="" class="article-img">
+                <div id="articleContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Cook Smarter, Eat Better</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Article data
+        const articles = {
+            1: {
+                title: "5 Easy & Healthy Breakfast Recipes Under 10 Minutes",
+                meta: "By Sarah Jones | March 2025 | Breakfast & Healthy",
+                image: "https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">Mornings can be hectic, but that's no excuse to skip the most important meal of the day. These five breakfast recipes are not only nutritious but also quick to prepare, ensuring you start your day with energy and focus.</p>
+
+                    <h4>1. Power-Packed Smoothie Bowl (5 minutes)</h4>
+                    <p class="article-text">Blend 1 frozen banana, ½ cup Greek yogurt, ¼ cup almond milk, and a handful of spinach until smooth. Pour into a bowl and top with sliced fruits, chia seeds, and a sprinkle of granola.</p>
+
+                    <h4>2. Avocado Toast with Poached Egg (8 minutes)</h4>
+                    <p class="article-text">Mash half an avocado with lime juice, salt, and pepper. Spread on whole-grain toast. While toasting, poach an egg in simmering water for 3-4 minutes. Place on top and sprinkle with chili flakes.</p>
+
+                    <h4>3. Overnight Oats Jar (2 minutes prep)</h4>
+                    <p class="article-text">Mix ½ cup rolled oats, ½ cup milk, 1 tbsp chia seeds, and 1 tsp honey in a jar. Refrigerate overnight. In the morning, add your favorite toppings like berries, nuts, or nut butter.</p>
+
+                    <h4>4. Veggie Scramble (10 minutes)</h4>
+                    <p class="article-text">Sauté chopped bell peppers, onions, and spinach in a pan. Add 2 beaten eggs and scramble until cooked. Season with herbs and serve with whole-wheat toast.</p>
+
+                    <h4>5. Peanut Butter Banana Wrap (3 minutes)</h4>
+                    <p class="article-text">Spread peanut butter on a whole-wheat tortilla, add sliced banana, drizzle with honey, and roll up. Perfect for eating on the go!</p>
+
+                    <div class="article-quote">
+                        "A healthy breakfast sets the tone for your entire day. These recipes prove that nutritious can also be quick and delicious!"
+                    </div>
+
+                    <p class="article-text"><strong>Pro Tip:</strong> Prep ingredients the night before to cut morning prep time in half. Wash and chop fruits/veggies, or even make smoothie packs and store them in the freezer.</p>
+                `
+            },
+            2: {
+                title: "How to Meal Prep Like a Pro: Save 10+ Hours Weekly",
+                meta: "By John Carter | May 2024 | Meal Prep",
+                image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">Meal prepping is the ultimate time-saver for busy individuals and families. With proper planning, you can save over 10 hours per week while eating healthier and reducing food waste.</p>
+
+                    <h4>The 4-Step Meal Prep System</h4>
+                    <ol class="article-list">
+                        <li><strong>Plan:</strong> Create a weekly menu considering your schedule, dietary needs, and ingredient overlap.</li>
+                        <li><strong>Shop:</strong> Make a detailed grocery list organized by store sections to save shopping time.</li>
+                        <li><strong>Prep:</strong> Dedicate 2-3 hours on your chosen prep day (usually Sunday) for bulk cooking.</li>
+                        <li><strong>Store:</strong> Use proper containers and labeling for easy access throughout the week.</li>
+                    </ol>
+
+                    <h4>Smart Meal Prep Strategies</h4>
+                    <ul class="article-list">
+                        <li><strong>Batch Cooking:</strong> Cook proteins, grains, and roasted veggies in large quantities</li>
+                        <li><strong>Component Prep:</strong> Prepare ingredients separately for flexible meal assembly</li>
+                        <li><strong>Freezer-Friendly:</strong> Make double batches of soups, stews, and casseroles to freeze</li>
+                        <li><strong>Portion Control:</strong> Use measured containers for balanced meals</li>
+                    </ul>
+
+                    <h4>Sample Weekly Meal Prep</h4>
+                    <p class="article-text"><strong>Sunday Prep (2.5 hours):</strong></p>
+                    <ul class="article-list">
+                        <li>Cook 4 cups of brown rice/quinoa</li>
+                        <li>Roast 2 trays of mixed vegetables</li>
+                        <li>Grill or bake 8 chicken breasts</li>
+                        <li>Hard-boil 12 eggs</li>
+                        <li>Wash and chop all fruits/vegetables</li>
+                        <li>Prepare 3 different salad dressings</li>
+                    </ul>
+
+                    <div class="article-quote">
+                        "Meal prepping isn't about eating the same thing every day—it's about having components ready to create varied, healthy meals throughout the week."
+                    </div>
+
+                    <p class="article-text"><strong>Storage Tips:</strong> Use glass containers for better food preservation. Label everything with dates. Keep dressings and sauces separate until serving to maintain texture.</p>
+                `
+            },
+            3: {
+                title: "Top 10 Essential Indian Spices & Their Magical Uses",
+                meta: "By Priya Sharma | December 2024 | Indian Cuisine",
+                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">Indian cuisine is renowned for its complex flavors, achieved through a masterful use of spices. Understanding these essential spices will transform your cooking and allow you to create authentic Indian dishes at home.</p>
+
+                    <h4>The Essential Spice Pantry</h4>
+
+                    <h5>1. Turmeric (Haldi)</h5>
+                    <p class="article-text"><strong>Uses:</strong> Adds golden color, anti-inflammatory properties, earthy flavor. Essential in curries, rice dishes, and marinades.</p>
+
+                    <h5>2. Cumin (Jeera)</h5>
+                    <p class="article-text"><strong>Uses:</strong> Earthy, warm flavor. Toast whole seeds before grinding for maximum flavor. Base for many spice blends.</p>
+
+                    <h5>3. Coriander (Dhania)</h5>
+                    <p class="article-text"><strong>Uses:</strong> Citrusy, sweet flavor. Use seeds whole or ground. Balances heat in spicy dishes.</p>
+
+                    <h5>4. Cardamom (Elaichi)</h5>
+                    <p class="article-text"><strong>Uses:</strong> Sweet, floral aroma. Green for savory dishes, black for sweets. Remove pods before serving.</p>
+
+                    <h5>5. Mustard Seeds (Rai)</h5>
+                    <p class="article-text"><strong>Uses:</strong> Pop in hot oil for tempering (tadka). Adds nutty flavor to South Indian dishes.</p>
+
+                    <h5>6. Fenugreek (Methi)</h5>
+                    <p class="article-text"><strong>Uses:</strong> Bitter, maple-like flavor. Use sparingly. Essential in curry powders and pickles.</p>
+
+                    <h5>7. Asafoetida (Hing)</h5>
+                    <p class="article-text"><strong>Uses:</strong> Pungent when raw, mellows when cooked. A pinch enhances digestion and flavor.</p>
+
+                    <h5>8. Garam Masala</h5>
+                    <p class="article-text"><strong>Uses:</strong> Warming spice blend. Add at the end of cooking to preserve aroma.</p>
+
+                    <h5>9. Red Chili Powder</h5>
+                    <p class="article-text"><strong>Uses:</strong> Adjust heat level. Kashmiri chili gives color without extreme heat.</p>
+
+                    <h5>10. Curry Leaves</h5>
+                    <p class="article-text"><strong>Uses:</strong> Fragrant leaves for tempering. Fresh is best, but dried works in a pinch.</p>
+
+                    <div class="article-quote">
+                        "In Indian cooking, spices are not just added for heat—they're layered to create depth, balance, and harmony in every dish."
+                    </div>
+
+                    <h4>Spice Storage Tips</h4>
+                    <p class="article-text">Store in airtight containers away from light and heat. Whole spices last 1-2 years, ground spices 6 months. Buy in small quantities for freshness.</p>
+
+                    <p class="article-text"><strong>Pro Tip:</strong> Dry roast spices before grinding to release essential oils and enhance flavor. Cool completely before storing.</p>
+                `
+            },
+            4: {
+                title: "Guilt-Free Desserts: Healthy Sweet Treats You'll Love",
+                meta: "By Emily Roberts | April 2024 | Healthy Desserts",
+                image: "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">Who says desserts can't be healthy? These guilt-free sweet treats use natural sweeteners, whole ingredients, and clever substitutions to satisfy your cravings without compromising your health goals.</p>
+
+                    <h4>Smart Sweetener Alternatives</h4>
+                    <ul class="article-list">
+                        <li><strong>Dates:</strong> Blend into paste for natural sweetness with fiber</li>
+                        <li><strong>Maple Syrup:</strong> Rich flavor, contains antioxidants</li>
+                        <li><strong>Honey:</strong> Natural antibacterial properties</li>
+                        <li><strong>Bananas:</strong> Mashed ripe bananas add sweetness and moisture</li>
+                        <li><strong>Stevia:</strong> Zero-calorie plant-based sweetener</li>
+                    </ul>
+
+                    <h4>5 Healthy Dessert Recipes</h4>
+
+                    <h5>1. Chocolate Avocado Mousse</h5>
+                    <p class="article-text">Blend 2 ripe avocados, ¼ cup cocoa powder, ¼ cup maple syrup, and 1 tsp vanilla until smooth. Chill for 2 hours. Rich, creamy, and packed with healthy fats.</p>
+
+                    <h5>2. Baked Apple "Donuts"</h5>
+                    <p class="article-text">Core apples and slice into rings. Brush with coconut oil, sprinkle with cinnamon and a touch of coconut sugar. Bake at 350°F for 15 minutes.</p>
+
+                    <h5>3. Chia Seed Pudding</h5>
+                    <p class="article-text">Mix ¼ cup chia seeds with 1 cup almond milk, 1 tbsp honey, and ½ tsp vanilla. Refrigerate overnight. Top with fresh berries.</p>
+
+                    <h5>4. Banana "Nice" Cream</h5>
+                    <p class="article-text">Freeze 3 ripe bananas. Blend with 1 tbsp peanut butter until creamy. Add cocoa powder for chocolate version.</p>
+
+                    <h5>5. Energy Bites</h5>
+                    <p class="article-text">Mix 1 cup oats, ½ cup peanut butter, ⅓ cup honey, ½ cup dark chocolate chips, and 1 tbsp chia seeds. Roll into balls and refrigerate.</p>
+
+                    <div class="article-quote">
+                        "Healthy desserts prove that you can have your cake and eat it too—just made with better ingredients!"
+                    </div>
+
+                    <h4>Ingredient Swaps for Healthier Baking</h4>
+                    <p class="article-text"><strong>Instead of white flour:</strong> Try almond flour, oat flour, or whole wheat flour</p>
+                    <p class="article-text"><strong>Instead of butter:</strong> Use mashed avocado, Greek yogurt, or applesauce</p>
+                    <p class="article-text"><strong>Instead of cream:</strong> Blend silken tofu or soaked cashews</p>
+                    <p class="article-text"><strong>Instead of sugar:</strong> Use mashed bananas, dates, or monk fruit sweetener</p>
+
+                    <p class="article-text"><strong>Pro Tip:</strong> Add spices like cinnamon, nutmeg, or cardamom to enhance sweetness naturally without adding sugar.</p>
+                `
+            },
+            5: {
+                title: "The Science Behind Perfect Baking Every Time",
+                meta: "By Michael Lee | October 2024 | Baking Science",
+                image: "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">Baking is as much a science as it is an art. Understanding the chemical reactions behind common baking processes will help you achieve perfect results every time, whether you're making bread, cakes, or pastries.</p>
+
+                    <h4>The Chemistry of Key Ingredients</h4>
+
+                    <h5>1. Flour & Gluten Development</h5>
+                    <p class="article-text">When flour mixes with water, gluten proteins (glutenin and gliadin) form an elastic network. Kneading develops this network, giving structure to bread. For tender cakes, minimal mixing prevents tough gluten formation.</p>
+
+                    <h5>2. Leavening Agents</h5>
+                    <p class="article-text"><strong>Baking soda</strong> requires acid (buttermilk, yogurt, vinegar) to activate and produce CO₂ bubbles. <strong>Baking powder</strong> contains both acid and base, activating with moisture and heat. <strong>Yeast</strong> feeds on sugar, producing CO₂ through fermentation.</p>
+
+                    <h5>3. Fats & Emulsions</h5>
+                    <p class="article-text">Butter and oils coat flour proteins, limiting gluten development for tender crumb. In creaming method, beating butter and sugar incorporates air cells that expand during baking.</p>
+
+                    <h5>4. Eggs: The Multi-Taskers</h5>
+                    <p class="article-text">Eggs provide structure (proteins coagulate at 160°F), leavening (trapped air expands), emulsification (bind fat and water), and moisture.</p>
+
+                    <h5>5. Sugar: More Than Sweetness</h5>
+                    <p class="article-text">Sugar tenderizes by interfering with gluten, retains moisture, aids browning (caramelization and Maillard reaction), and stabilizes egg foams.</p>
+
+                    <div class="article-quote">
+                        "Precision in baking matters because chemical reactions depend on exact ratios. A few grams can mean the difference between success and failure."
+                    </div>
+
+                    <h4>Common Baking Problems & Solutions</h4>
+
+                    <h5>Dense Cakes</h5>
+                    <p class="article-text"><strong>Causes:</strong> Overmixing, expired baking powder, oven temperature too low<br>
+                    <strong>Solution:</strong> Mix just until combined, check leavener freshness, use oven thermometer</p>
+
+                    <h5>Tough Bread</h5>
+                    <p class="article-text"><strong>Causes:</strong> Over-kneading, not enough rising time, too much flour<br>
+                    <strong>Solution:</strong> Knead until windowpane test passes, allow proper proofing, measure flour correctly</p>
+
+                    <h5>Soggy Bottoms</h5>
+                    <p class="article-text"><strong>Causes:</strong> Underbaking, steam trapped during cooling<br>
+                    <strong>Solution:</strong> Use toothpick test, cool on wire rack for air circulation</p>
+
+                    <h5>Uneven Rising</h5>
+                    <p class="article-text"><strong>Causes:</strong> Uneven oven temperature, opening oven too early<br>
+                    <strong>Solution:</strong> Rotate pans halfway, don't open oven door in first 75% of baking time</p>
+
+                    <h4>The Importance of Temperature</h4>
+                    <p class="article-text">• Room temperature ingredients emulsify better<br>
+                    • Cold butter creates flaky pastry layers<br>
+                    • Warm liquid (105-115°F) activates yeast<br>
+                    • Oven spring occurs in first 10 minutes of baking</p>
+
+                    <p class="article-text"><strong>Pro Tip:</strong> Weigh ingredients instead of using volume measurements for consistent results. Flour can vary by 30% depending on how it's scooped!</p>
+                `
+            },
+            6: {
+                title: "7 Common Cooking Mistakes & How to Avoid Them",
+                meta: "By David Kim | January 2025 | Cooking Tips",
+                image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">Even experienced cooks make mistakes that can ruin a dish. Learning to recognize and avoid these common errors will dramatically improve your cooking results and confidence in the kitchen.</p>
+
+                    <h4>1. Overcrowding the Pan</h4>
+                    <p class="article-text"><strong>The Mistake:</strong> Adding too much food to a pan at once causes steaming instead of searing, resulting in soggy, grey meat and vegetables.<br>
+                    <strong>The Fix:</strong> Cook in batches. Leave space between items so moisture can evaporate. Pat proteins dry before cooking for better browning.</p>
+
+                    <h4>2. Not Preheating Properly</h4>
+                    <p class="article-text"><strong>The Mistake:</strong> Adding food to a cold pan or underheated oven leads to uneven cooking and poor texture.<br>
+                    <strong>The Fix:</strong> Preheat pans for 2-3 minutes over medium heat. Preheat ovens for at least 15 minutes. Use an oven thermometer for accuracy.</p>
+
+                    <h4>3. Constant Stirring</h4>
+                    <p class="article-text"><strong>The Mistake:</strong> Over-stirring prevents proper browning and can break delicate ingredients.<br>
+                    <strong>The Fix:</strong> Let food develop a crust before moving it. For sautéing, let ingredients sit for 1-2 minutes between stirs.</p>
+
+                    <h4>4. Improper Seasoning</h4>
+                    <p class="article-text"><strong>The Mistake:</strong> Adding salt only at the end or using too little throughout cooking.<br>
+                    <strong>The Fix:</strong> Season in layers. Salt meat before cooking, season vegetables while sautéing, and adjust final seasoning before serving.</p>
+
+                    <h4>5. Using Dull Knives</h4>
+                    <p class="article-text"><strong>The Mistake:</strong> Dull knives require more force, increasing the risk of slips and uneven cuts.<br>
+                    <strong>The Fix:</strong> Keep knives sharp with regular honing and professional sharpening. Sharp knives are safer and give better results.</p>
+
+                    <h4>6. Ignoring Resting Time</h4>
+                    <p class="article-text"><strong>The Mistake:</strong> Cutting meat immediately after cooking causes juices to run out.<br>
+                    <strong>The Fix:</strong> Let meat rest for 5-15 minutes (depending on size) before slicing. This allows juices to redistribute.</p>
+
+                    <h4>7. Substituting Without Understanding</h4>
+                    <p class="article-text"><strong>The Mistake:</strong> Randomly substituting ingredients without considering their function in the recipe.<br>
+                    <strong>The Fix:</strong> Understand why each ingredient is used. For example, don't substitute baking powder for baking soda without adjusting acids.</p>
+
+                    <div class="article-quote">
+                        "Good cooking is about technique, not just following recipes. Mastering these fundamentals will make you a better cook than any single recipe ever could."
+                    </div>
+
+                    <h4>Advanced Tips for Better Results</h4>
+
+                    <h5>Taste as You Go</h5>
+                    <p class="article-text">Seasoning should be adjusted throughout cooking, not just at the end. Taste at each stage to understand how flavors develop.</p>
+
+                    <h5>Mise en Place</h5>
+                    <p class="article-text">Prepare all ingredients before you start cooking. This prevents burning while you chop and ensures everything is ready when needed.</p>
+
+                    <h5>Understand Heat Levels</h5>
+                    <p class="article-text">• High heat: Searing, boiling water<br>
+                    • Medium-high: Sautéing, stir-frying<br>
+                    • Medium: Simmering sauces, cooking eggs<br>
+                    • Low: Melting chocolate, keeping food warm</p>
+
+                    <h5>Trust Your Senses</h5>
+                    <p class="article-text">Recipes provide guidelines, but your eyes, nose, and taste buds are the ultimate tools. Learn to recognize visual and aromatic cues for doneness.</p>
+
+                    <p class="article-text"><strong>Pro Tip:</strong> Keep a cooking journal. Note what worked, what didn't, and adjustments you made. This builds personal knowledge more valuable than any cookbook.</p>
+                `
+            },
+            7: {
+                title: "Zero-Waste Kitchen: How to Reduce Food Waste by 80%",
+                meta: "By Lisa Green | February 2025 | Sustainability",
+                image: "https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">The average household throws away approximately 30% of the food they purchase. With these zero-waste strategies, you can dramatically reduce food waste, save money, and contribute to a healthier planet.</p>
+
+                    <h4>The 5 Rs of Zero-Waste Cooking</h4>
+                    <ol class="article-list">
+                        <li><strong>Refuse:</strong> Don't buy more than you need. Avoid impulse purchases and "buy one get one" deals unless you'll actually use both.</li>
+                        <li><strong>Reduce:</strong> Plan meals around what you already have. Use apps to track pantry items and expiration dates.</li>
+                        <li><strong>Reuse:</strong> Get creative with leftovers and food scraps. Vegetable peels become stock, stale bread becomes croutons.</li>
+                        <li><strong>Repurpose:</strong> Turn wilting produce into new dishes. Soft tomatoes become sauce, overripe bananas become banana bread.</li>
+                        <li><strong>Rot:</strong> Compost what truly can't be used. Even apartment dwellers can use worm farms or bokashi systems.</li>
+                    </ol>
+
+                    <h4>Creative Uses for Common Food Scraps</h4>
+
+                    <h5>Vegetable Scraps</h5>
+                    <p class="article-text"><strong>Peels & Ends:</strong> Freeze in a bag until you have enough for homemade vegetable stock. Carrot peels, onion skins, celery ends, and herb stems all add flavor.</p>
+                    <p class="article-text"><strong>Broccoli Stems:</strong> Peel the tough outer layer and slice the tender inner stem for stir-fries or slaws.</p>
+                    <p class="article-text"><strong>Potato Peels:</strong> Toss with oil and spices, then bake at 400°F for 15 minutes for crispy chips.</p>
+
+                    <h5>Fruit Scraps</h5>
+                    <p class="article-text"><strong>Citrus Peels:</strong> Dry and grind for homemade citrus powder, or infuse in vinegar for cleaning solutions.</p>
+                    <p class="article-text"><strong>Apple Cores & Peels:</strong> Simmer with water and cinnamon for homemade apple cider vinegar.</p>
+                    <p class="article-text"><strong>Berry Tops:</strong> Freeze and add to smoothies for extra fiber.</p>
+
+                    <h5>Bread & Grain Scraps</h5>
+                    <p class="article-text"><strong>Stale Bread:</strong> Make breadcrumbs, croutons, or bread pudding. Day-old bread actually makes better French toast!</p>
+                    <p class="article-text"><strong>Pasta Water:</strong> Save starchy pasta water to thicken sauces or add to soups.</p>
+
+                    <div class="article-quote">
+                        "Waste is just resources in the wrong place. With a little creativity, you can transform what you'd normally discard into delicious new ingredients."
+                    </div>
+
+                    <h4>Smart Storage Solutions</h4>
+                    <ul class="article-list">
+                        <li><strong>Herbs:</strong> Store upright in a glass of water like flowers, covered with a plastic bag.</li>
+                        <li><strong>Greens:</strong> Wrap in damp cloth towels before refrigerating to maintain crispness.</li>
+                        <li><strong>Berries:</strong> Wash in vinegar water (1:3 ratio) to extend shelf life by up to 2 weeks.</li>
+                        <li><strong>Onions & Potatoes:</strong> Store in cool, dark, separate places (they cause each other to spoil faster).</li>
+                        <li><strong>Bananas:</strong> Separate from the bunch and wrap stem ends in plastic to slow ripening.</li>
+                    </ul>
+
+                    <h4>Weekly "Clean Out the Fridge" Meal</h4>
+                    <p class="article-text">Designate one meal per week where you must use whatever needs to be used up. Some ideas:</p>
+                    <ul class="article-list">
+                        <li>Frittata with leftover veggies and cheese</li>
+                        <li>Soup made from vegetable scraps and pantry items</li>
+                        <li>Stir-fry with whatever proteins and vegetables need using</li>
+                        <li>Pizza with assorted toppings from fridge remnants</li>
+                    </ul>
+
+                    <p class="article-text"><strong>Pro Tip:</strong> Practice "first in, first out" organization. When you buy new groceries, move older items to the front so they get used first.</p>
+                `
+            },
+            8: {
+                title: "The Art of Fermentation: Boost Gut Health with DIY Probiotics",
+                meta: "By Robert Chen | November 2024 | Fermentation",
+                image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">Fermentation is one of humanity's oldest food preservation methods, but it's also a powerful way to enhance nutrition and support gut health. Learn how to harness beneficial bacteria to create delicious, probiotic-rich foods at home.</p>
+
+                    <h4>Why Ferment? The Health Benefits</h4>
+                    <ul class="article-list">
+                        <li><strong>Improved Digestion:</strong> Natural probiotics support a healthy gut microbiome</li>
+                        <li><strong>Enhanced Nutrition:</strong> Fermentation increases bioavailability of vitamins and minerals</li>
+                        <li><strong>Natural Preservation:</strong> Creates an environment where harmful bacteria can't survive</li>
+                        <li><strong>Unique Flavors:</strong> Develops complex, tangy tastes unavailable through other methods</li>
+                        <li><strong>Reduced Anti-nutrients:</strong> Breaks down compounds that interfere with nutrient absorption</li>
+                    </ul>
+
+                    <h4>Essential Fermentation Equipment</h4>
+                    <p class="article-text"><strong>Basic Setup:</strong> Glass jars, weights to keep food submerged, breathable covers (cloth or special lids), and clean workspace.</p>
+                    <p class="article-text"><strong>Optional:</strong> pH strips to monitor acidity, airlock systems for anaerobic fermentation, fermentation crocks.</p>
+
+                    <h4>4 Beginner-Friendly Fermentation Projects</h4>
+
+                    <h5>1. Simple Sauerkraut (Ready in 1-4 weeks)</h5>
+                    <p class="article-text"><strong>Ingredients:</strong> 1 medium cabbage, 1½ tbsp salt<br>
+                    <strong>Method:</strong> Thinly slice cabbage, massage with salt until liquid releases. Pack tightly into jar, ensuring cabbage is submerged in its own liquid. Ferment at room temperature, tasting weekly until desired tanginess.</p>
+
+                    <h5>2. Basic Kimchi (Ready in 3-7 days)</h5>
+                    <p class="article-text"><strong>Ingredients:</strong> 1 napa cabbage, ¼ cup salt, 1 tbsp grated ginger, 3 cloves garlic, 1-3 tbsp Korean chili powder, 1 tbsp fish sauce (optional)<br>
+                    <strong>Method:</strong> Salt cabbage for 2 hours, rinse, mix with paste of remaining ingredients. Pack into jars, leaving headspace. Burp daily to release gases.</p>
+
+                    <h5>3. Water Kefir (Ready in 24-48 hours)</h5>
+                    <p class="article-text"><strong>Ingredients:</strong> ¼ cup water kefir grains, 4 cups water, ¼ cup sugar, dried fruit for flavor<br>
+                    <strong>Method:</strong> Dissolve sugar in water, add grains and fruit. Cover with cloth, ferment 24-48 hours. Strain and bottle for secondary fermentation if desired.</p>
+
+                    <h5>4. Simple Pickles (Ready in 3-10 days)</h5>
+                    <p class="article-text"><strong>Ingredients:</strong> Cucumbers, 3% brine (3g salt per 100ml water), garlic, dill, peppercorns<br>
+                    <strong>Method:</strong> Pack cucumbers and aromatics into jar. Cover with brine, ensuring complete submersion. Ferment until desired sourness.</p>
+
+                    <div class="article-quote">
+                        "Fermentation isn't about sterile perfection—it's about creating the right conditions for beneficial microbes to thrive while discouraging harmful ones."
+                    </div>
+
+                    <h4>Troubleshooting Common Issues</h4>
+
+                    <h5>Mold Growth</h5>
+                    <p class="article-text"><strong>Cause:</strong> Food exposed to air, contaminated equipment, or insufficient salt<br>
+                    <strong>Solution:</strong> Always keep food submerged, use proper salt concentration, sanitize equipment</p>
+
+                    <h5>Too Salty</h5>
+                    <p class="article-text"><strong>Cause:</strong> Over-salting during preparation<br>
+                    <strong>Solution:</strong> Rinse before eating, or use in cooking where saltiness balances other flavors</p>
+
+                    <h5>Not Fermenting</h5>
+                    <p class="article-text"><strong>Cause:</strong> Temperature too cold, old ingredients, chlorinated water<br>
+                    <strong>Solution:</strong> Move to warmer spot (65-75°F ideal), use fresh produce, use filtered water</p>
+
+                    <h5>Too Soft/Mushy</h5>
+                    <p class="article-text"><strong>Cause:</strong> Enzymes breaking down pectin, temperature too high<br>
+                    <strong>Solution:</strong> Add tannin sources (grape leaves, black tea), ferment at cooler temperatures</p>
+
+                    <h4>Safety First: Signs of Successful vs Failed Fermentation</h4>
+                    <p class="article-text"><strong>Good Signs:</strong> Bubbles, cloudy brine, pleasant sour smell, tangy taste<br>
+                    <strong>Bad Signs:</strong> Fuzzy mold (not to be confused with harmless kahm yeast), foul rotten smell, slimy texture</p>
+
+                    <p class="article-text"><strong>Pro Tip:</strong> Start a "fermentation journal" to track recipes, timings, temperatures, and results. This helps you refine your technique and replicate successes.</p>
+                `
+            },
+            9: {
+                title: "Mediterranean Diet Secrets: Why It's Ranked #1 for Health",
+                meta: "By Maria Rossi | September 2024 | International Cuisine",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                content: `
+                    <p class="article-text">For years, the Mediterranean diet has consistently ranked as the world's healthiest eating pattern. But it's not really a "diet" in the restrictive sense—it's a lifestyle approach to eating that emphasizes flavor, community, and pleasure alongside nutrition.</p>
+
+                    <h4>The Core Principles of Mediterranean Eating</h4>
+                    <ul class="article-list">
+                        <li><strong>Plant-Based Foundation:</strong> Meals built around vegetables, fruits, whole grains, legumes, nuts, and seeds</li>
+                        <li><strong>Healthy Fats:</strong> Olive oil as primary fat source, with moderate amounts of nuts and seeds</li>
+                        <li><strong>Lean Proteins:</strong> Fish and seafood twice weekly, poultry in moderation, limited red meat</li>
+                        <li><strong>Dairy in Moderation:</strong> Primarily yogurt and cheese, often fermented</li>
+                        <li><strong>Herbs & Spices:</strong> Flavor from herbs and spices rather than salt</li>
+                        <li><strong>Social Eating:</strong> Meals as social events to be enjoyed slowly with others</li>
+                        <li><strong>Physical Activity:</strong> Regular movement integrated into daily life</li>
+                    </ul>
+
+                    <h4>The Science Behind the Benefits</h4>
+                    <p class="article-text">Numerous studies link the Mediterranean diet to:</p>
+                    <ul class="article-list">
+                        <li>30% reduction in heart disease risk</li>
+                        <li>Improved cognitive function and reduced Alzheimer's risk</li>
+                        <li>Better blood sugar control and reduced diabetes risk</li>
+                        <li>Weight management without calorie counting</li>
+                        <li>Reduced inflammation throughout the body</li>
+                        <li>Increased longevity and quality of life</li>
+                    </ul>
+
+                    <h4>Authentic Mediterranean Recipes to Try</h4>
+
+                    <h5>1. Classic Greek Salad (Horiatiki)</h5>
+                    <p class="article-text"><strong>Key Ingredients:</strong> Ripe tomatoes, cucumber, red onion, Kalamata olives, feta cheese, oregano, extra virgin olive oil<br>
+                    <strong>The Secret:</strong> Use the best quality olive oil you can afford, and don't skimp! The oil is part of the dressing AND part of the vegetable cooking process.</p>
+
+                    <h5>2. Simple Roasted Fish with Herbs</h5>
+                    <p class="article-text"><strong>Key Ingredients:</strong> Whole fish or fillets (sea bass, branzino, or salmon), lemon, garlic, fresh herbs (parsley, dill, oregano), olive oil<br>
+                    <strong>The Secret:</strong> Score the fish skin to allow flavors to penetrate, and stuff the cavity with lemon slices and herbs for maximum aroma.</p>
+
+                    <h5>3. Lentil Soup (Fakes Soupa)</h5>
+                    <p class="article-text"><strong>Key Ingredients:</strong> Brown lentils, onion, garlic, carrot, celery, bay leaf, olive oil, red wine vinegar<br>
+                    <strong>The Secret:</strong> Add a splash of vinegar at the end of cooking to brighten flavors and increase iron absorption from the lentils.</p>
+
+                    <h5>4. Vegetable Ratatouille</h5>
+                    <p class="article-text"><strong>Key Ingredients:</strong> Eggplant, zucchini, bell peppers, tomatoes, onion, garlic, herbes de Provence<br>
+                    <strong>The Secret:</strong> Cook each vegetable separately before combining to maintain individual textures and flavors.</p>
+
+                    <div class="article-quote">
+                        "The Mediterranean diet isn't about deprivation—it's about abundance. Abundance of flavor, color, texture, and most importantly, shared meals with loved ones."
+                    </div>
+
+                    <h4>How to Mediterranean-ize Your Current Diet</h4>
+
+                    <h5>Breakfast</h5>
+                    <p class="article-text"><strong>Instead of:</strong> Sugary cereal or pastries<br>
+                    <strong>Try:</strong> Greek yogurt with honey and nuts, or whole grain bread with olive oil and tomato</p>
+
+                    <h5>Lunch</h5>
+                    <p class="article-text"><strong>Instead of:</strong> Sandwiches on white bread<br>
+                    <strong>Try:</strong> Large salad with beans, olives, and feta, or leftover vegetable soup</p>
+
+                    <h5>Dinner</h5>
+                    <p class="article-text"><strong>Instead of:</strong> Meat-centric meals<br>
+                    <strong>Try:</strong> Vegetable-based dishes with small portions of fish or legumes as protein</p>
+
+                    <h5>Snacks</h5>
+                    <p class="article-text"><strong>Instead of:</strong> Processed snacks<br>
+                    <strong>Try:</strong> Handful of nuts, piece of fruit, or vegetables with hummus</p>
+
+                    <h4>The "Extra Virgin" Advantage</h4>
+                    <p class="article-text">Not all olive oil is created equal. True extra virgin olive oil (EVOO) contains polyphenols with antioxidant and anti-inflammatory properties. Look for:</p>
+                    <ul class="article-list">
+                        <li>Dark glass bottles (protects from light damage)</li>
+                        <li>Harvest date within the last year</li>
+                        <li>"First cold press" on the label</li>
+                        <li>Peppery finish when tasted (indicates high polyphenol content)</li>
+                    </ul>
+
+                    <h4>The Social Component: Why It Matters</h4>
+                    <p class="article-text">In Mediterranean cultures, meals are rarely eaten alone or quickly. The social aspect contributes to:</p>
+                    <ul class="article-list">
+                        <li>Slower eating pace (aids digestion and satiety signals)</li>
+                        <li>Reduced stress during meals</li>
+                        <li>Stronger social connections (linked to better mental health)</li>
+                        <li>Tradition of afternoon siestas (brief rest after lunch)</li>
+                    </ul>
+
+                    <p class="article-text"><strong>Pro Tip:</strong> Implement "Meatless Mondays" and "Fish Fridays" to naturally incorporate Mediterranean principles. Over time, add more plant-based days until you're eating Mediterranean-style most of the time.</p>
+                `
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const readMoreBtns = document.querySelectorAll('.read-more-btn');
+            const articleModal = document.getElementById('articleModal');
+            const closeArticle = document.getElementById('closeArticle');
+            const blogCards = document.querySelectorAll('.blog-card');
+
+            // Article modal functionality
+            readMoreBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const articleId = this.getAttribute('data-article');
+                    const article = articles[articleId];
+
+                    if (article) {
+                        document.getElementById('articleTitle').textContent = article.title;
+                        document.getElementById('articleMeta').textContent = article.meta;
+                        document.getElementById('articleImage').src = article.image;
+                        document.getElementById('articleContent').innerHTML = article.content;
+
+                        articleModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            // Close modal
+            closeArticle.addEventListener('click', function() {
+                articleModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            // Close modal when clicking outside content
+            articleModal.addEventListener('click', function(e) {
+                if (e.target === articleModal) {
+                    articleModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Animate cards on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            blogCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+
+            // Newsletter subscription
+            const subscribeBtn = document.querySelector('.newsletter-section .btn');
+            const emailInput = document.querySelector('.newsletter-section input');
+
+            subscribeBtn.addEventListener('click', function() {
+                if (emailInput.value && emailInput.value.includes('@')) {
+                    alert('Thank you for subscribing! You\'ll receive our next newsletter soon.');
+                    emailInput.value = '';
+                } else {
+                    alert('Please enter a valid email address.');
+                }
+            });
+
+            // Press Enter to subscribe
+            emailInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    subscribeBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

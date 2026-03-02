@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Recipes - Recipe Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+            --pastel-green: #C1E1C1;
+            --pastel-blue: #B5EAD7;
+            --pastel-purple: #D8BFD8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        .custom-btn {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+            border: 2px solid var(--pastel-coral);
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .custom-btn:hover {
+            background-color: var(--pastel-coral);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--pastel-peach);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .search-icon {
+            font-size: 2.8rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+            background: rgba(255, 160, 122, 0.1);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+
+        .search-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        /* Time Input Styling */
+        .time-input-container {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .time-input {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid var(--pastel-peach);
+            border-radius: 25px;
+            font-size: 1.2rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--pastel-coral);
+            transition: all 0.3s;
+        }
+
+        .time-input:focus {
+            border-color: var(--pastel-coral);
+            box-shadow: 0 0 0 0.25rem rgba(255, 160, 122, 0.25);
+            outline: none;
+        }
+
+        .time-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: white;
+            padding: 0 10px;
+            color: var(--pastel-coral);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Quick Time Chips */
+        .time-chips {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .time-chip {
+            background: var(--pastel-cream);
+            border: 2px solid var(--pastel-peach);
+            color: var(--text-dark);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time-chip:hover {
+            background: var(--pastel-coral);
+            color: white;
+            border-color: var(--pastel-coral);
+            transform: translateY(-2px);
+        }
+
+        .time-chip.active {
+            background: var(--pastel-coral);
+            color: white;
+            border-color: var(--pastel-coral);
+        }
+
+        /* Recipe Results */
+        .results-section {
+            margin: 60px 0;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            height: 100%;
+            border: 2px solid transparent;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .recipe-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .recipe-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .recipe-card:hover .recipe-img img {
+            transform: scale(1.05);
+        }
+
+        .recipe-content {
+            padding: 25px;
+        }
+
+        .recipe-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recipe-category {
+            background: var(--pastel-pink);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .recipe-time {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .recipe-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--pastel-coral);
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        /* Time Badge */
+        .time-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--pastel-coral);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--pastel-peach);
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .time-chips {
+                gap: 10px;
+            }
+
+            .time-chip {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Quick & Easy Recipes</h1>
+            <p class="hero-subtitle">Find recipes that fit your busy schedule! Enter your maximum cooking time and discover delicious meals you can prepare in minutes.</p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <h2 class="section-title">Find Recipes By Cooking Time</h2>
+
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="search-card">
+                        <div class="search-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="search-title">Set Your Cooking Time</h3>
+                        <p class="hero-subtitle">How much time do you have? Enter your maximum cooking time below.</p>
+
+                        <!-- Time Input -->
+                        <div class="time-input-container">
+                            <label class="time-label">Maximum Cooking Time (minutes)</label>
+                            <input type="number" class="form-control time-input" id="cookingTime" placeholder="Enter time in minutes" value="30">
+                        </div>
+
+                        <!-- Quick Time Chips -->
+                        <div class="time-chips">
+                            <div class="time-chip" onclick="setTime(15)">
+                                <i class="fas fa-bolt"></i> 15 min
+                            </div>
+                            <div class="time-chip active" onclick="setTime(30)">
+                                <i class="fas fa-stopwatch"></i> 30 min
+                            </div>
+                            <div class="time-chip" onclick="setTime(45)">
+                                <i class="fas fa-clock"></i> 45 min
+                            </div>
+                            <div class="time-chip" onclick="setTime(60)">
+                                <i class="fas fa-hourglass-half"></i> 1 hour
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <div class="text-center mt-4">
+                            <button class="btn custom-btn px-5 py-3" onclick="searchQuickRecipes()">
+                                <i class="fas fa-search me-2"></i>Find Quick Recipes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h2 class="section-title" id="resultsTitle">Quick Recipes</h2>
+            <p class="text-center mb-4 hero-subtitle" id="matchCount">Found recipes under <span id="searchTimeDisplay">30</span> minutes</p>
+            <div class="row" id="recipeResults"></div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>No Quick Recipes Found</h3>
+                <p class="hero-subtitle">We couldn't find recipes within your time limit. Try increasing your cooking time!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Cook Quick, Eat Well</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentRecipe = null;
+
+        // Set time from quick chips
+        function setTime(minutes) {
+            document.getElementById('cookingTime').value = minutes;
+            updateTimeChips(minutes);
+        }
+
+        // Update time chips active state
+        function updateTimeChips(selectedTime) {
+            const chips = document.querySelectorAll('.time-chip');
+            chips.forEach(chip => {
+                const chipTime = parseInt(chip.textContent.match(/\d+/)[0]);
+                if (chipTime === selectedTime) {
+                    chip.classList.add('active');
+                } else {
+                    chip.classList.remove('active');
+                }
+            });
+        }
+
+        // Search quick recipes (EXACTLY THE SAME FUNCTIONALITY)
+        function searchQuickRecipes() {
+            const cookingTime = document.getElementById('cookingTime').value;
+
+            if (!cookingTime || cookingTime < 1) {
+                alert("Please enter a valid cooking time!");
+                return;
+            }
+
+            document.getElementById('searchTimeDisplay').textContent = cookingTime;
+
+            const formData = new FormData();
+            formData.append('cooking_time', cookingTime);
+
+            fetch('/search_quick_recipes', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const resultsSection = document.getElementById('resultsSection');
+                const recipeResults = document.getElementById('recipeResults');
+                const resultsTitle = document.getElementById('resultsTitle');
+                const matchCount = document.getElementById('matchCount');
+                const emptyState = document.getElementById('emptyState');
+
+                resultsSection.style.display = 'block';
+                recipeResults.innerHTML = '';
+                emptyState.style.display = 'none';
+
+                if (data.error) {
+                    showNoResults(data.error);
+                } else if (Object.keys(data).length === 0) {
+                    showNoResults("No recipes found for the given cooking time.");
+                } else {
+                    resultsTitle.textContent = `Recipes Under ${cookingTime} Minutes`;
+
+                    let totalRecipes = 0;
+
+                    for (const [time, recipes] of Object.entries(data)) {
+                        totalRecipes += recipes.length;
+
+                        recipes.forEach((recipe, index) => {
+                            const recipeCard = createRecipeCard(recipe, index);
+                            recipeResults.appendChild(recipeCard);
+                        });
+                    }
+
+                    matchCount.textContent = `Found ${totalRecipes} recipe${totalRecipes === 1 ? '' : 's'} under ${cookingTime} minutes`;
+
+                    // Animate cards
+                    animateCards();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNoResults("An error occurred while fetching recipes. Please try again.");
+            });
+        }
+
+        // Create recipe card
+        function createRecipeCard(recipe, index) {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-6 mb-4';
+
+            // Get appropriate icon based on category
+            let categoryIcon = 'fa-utensils';
+            if (recipe['Category']?.toLowerCase().includes('breakfast')) categoryIcon = 'fa-sun';
+            if (recipe['Category']?.toLowerCase().includes('lunch')) categoryIcon = 'fa-utensils';
+            if (recipe['Category']?.toLowerCase().includes('dinner')) categoryIcon = 'fa-moon';
+            if (recipe['Category']?.toLowerCase().includes('dessert')) categoryIcon = 'fa-ice-cream';
+
+            col.innerHTML = `
+                <div class="recipe-card" onclick="showRecipeDetails(${JSON.stringify(recipe).replace(/"/g, '&quot;')})">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="${recipe['Food Name']}">
+                        <div class="time-badge">
+                            <i class="fas fa-clock me-1"></i>${recipe['Cooking Time (mins)'] || '30'} min
+                        </div>
+                    </div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">${recipe['Food Name']}</h3>
+                        <div class="recipe-meta">
+                            <span class="recipe-category">
+                                <i class="fas ${categoryIcon} me-2"></i>${recipe['Category'] || 'General'}
+                            </span>
+                            <span class="recipe-time">
+                                <i class="fas fa-clock me-1"></i>${recipe['Cooking Time (mins)'] || '30'} mins
+                            </span>
+                        </div>
+                        <div class="recipe-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${recipe['Calories'] || '250'}</div>
+                                <div class="stat-label">CALORIES</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${recipe['Protein (g)'] || '15'}g</div>
+                                <div class="stat-label">PROTEIN</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${recipe['Serving Size'] || '2'}</div>
+                                <div class="stat-label">SERVES</div>
+                            </div>
+                        </div>
+                        <button class="btn custom-btn w-100">
+                            <i class="fas fa-book-open me-2"></i>View Recipe
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            return col;
+        }
+
+        // Show recipe details (modal removed, using inline display)
+        function showRecipeDetails(recipe) {
+            currentRecipe = recipe;
+
+            const recipeDetails = document.getElementById('recipeDetails');
+            if (!recipeDetails) {
+                const detailsDiv = document.createElement('div');
+                detailsDiv.id = 'recipeDetails';
+                detailsDiv.className = 'recipe-card mt-4';
+                document.getElementById('resultsSection').appendChild(detailsDiv);
+            }
+
+            document.getElementById('recipeDetails').innerHTML = `
+                <h3>${recipe['Food Name']}</h3>
+                <p><strong>Category:</strong> ${recipe['Category']}</p>
+                <p><strong>Dietary Preference:</strong> ${recipe['Dietary Preference']}</p>
+                <p><strong>Ingredients:</strong> ${recipe['Ingredients']}</p>
+                <p><strong>Cooking Instructions:</strong> ${recipe['Cooking Instructions']}</p>
+                <p><strong>Spice Level:</strong> ${recipe['Spice Level']}</p>
+                <p><strong>Cooking Time:</strong> ${recipe['Cooking Time (mins)']} mins</p>
+                <p><strong>Serving Size:</strong> ${recipe['Serving Size']}</p>
+                <p><strong>Calories:</strong> ${recipe['Calories']}</p>
+                <p><strong>Protein:</strong> ${recipe['Protein (g)']}g</p>
+                <p><strong>Carbohydrates:</strong> ${recipe['Carbohydrates (g)']}g</p>
+                <p><strong>Fats:</strong> ${recipe['Fats (g)']}g</p>
+                <p><strong>Step-by-Step Cooking Guide:</strong> ${recipe['Step-by-Step Cooking Guide']}</p>
+                <button class="btn custom-btn mt-3" onclick="addToFavourites('${recipe['Food Name'].replace(/'/g, "\\'")}')">
+                    <i class="fas fa-heart me-2"></i> Add to Favourites
+                </button>
+            `;
+
+            // Scroll to details
+            document.getElementById('recipeDetails').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add to favourites (EXACTLY THE SAME FUNCTIONALITY)
+        function addToFavourites(dishName) {
+            const formData = new FormData();
+            formData.append('dish_name', dishName);
+
+            fetch('/add_to_favorites', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(`${dishName} has been added to your favourites!`);
+                } else {
+                    throw new Error('Failed to add to favourites');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add to favourites. Please try again.');
+            });
+        }
+
+        // Utility functions
+        function showNoResults(message) {
+            const emptyState = document.getElementById('emptyState');
+            emptyState.innerHTML = `
+                <div class="empty-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No Recipes Found</h3>
+                <p class="hero-subtitle">${message}</p>
+            `;
+            emptyState.style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+
+        function animateCards() {
+            const cards = document.querySelectorAll('.recipe-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Press Enter in time input to search
+            document.getElementById('cookingTime').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchQuickRecipes();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

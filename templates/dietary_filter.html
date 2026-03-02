@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dietary Filters - Recipe Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+            --pastel-green: #C1E1C1;
+            --pastel-blue: #B5EAD7;
+            --pastel-purple: #D8BFD8;
+            --pastel-mint: #98FF98;
+            --pastel-lavender: #E6E6FA;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        .custom-btn {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+            border: 2px solid var(--pastel-coral);
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .custom-btn:hover {
+            background-color: var(--pastel-coral);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Dietary Options */
+        .dietary-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--pastel-peach);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .diet-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            height: 100%;
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diet-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .diet-card.selected {
+            border-color: var(--pastel-coral);
+            background: rgba(255, 160, 122, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .diet-icon {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            color: white;
+        }
+
+        .diet-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .diet-desc {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Diet Colors */
+        .diet-high-protein { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); }
+        .diet-gluten-free { background: linear-gradient(135deg, #4ECDC4, #6AFFB8); }
+        .diet-low-calorie { background: linear-gradient(135deg, #45B7D1, #96E6FF); }
+        .diet-vegetarian { background: linear-gradient(135deg, #96CEB4, #C1E1C1); }
+        .diet-non-vegetarian { background: linear-gradient(135deg, #FFB347, #FFCC7F); }
+        .diet-probiotic { background: linear-gradient(135deg, #DDA0DD, #E6C9E9); }
+        .diet-high-fiber { background: linear-gradient(135deg, #AEC6CF, #D4EFFA); }
+        .diet-high-calorie { background: linear-gradient(135deg, #FFD700, #FFE873); }
+
+        /* Results Section */
+        .results-section {
+            margin: 60px 0;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            height: 100%;
+            border: 2px solid transparent;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .recipe-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .recipe-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .recipe-card:hover .recipe-img img {
+            transform: scale(1.05);
+        }
+
+        .recipe-content {
+            padding: 25px;
+        }
+
+        .recipe-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recipe-category {
+            background: var(--pastel-pink);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .recipe-time {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .recipe-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--pastel-coral);
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--pastel-peach);
+            margin-bottom: 20px;
+        }
+
+        /* Recipe Details Modal */
+        .recipe-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .recipe-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .recipe-modal-content {
+            background: white;
+            border-radius: 25px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 0;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--pastel-coral);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--pastel-pink);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-coral));
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .modal-header h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-section {
+            margin-bottom: 30px;
+        }
+
+        .modal-section h4 {
+            color: var(--pastel-coral);
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--pastel-peach);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .modal-header h3 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Find Your Perfect Match</h1>
+            <p class="hero-subtitle">Select your dietary preference and discover delicious recipes tailored to your lifestyle. Whether you're building muscle, watching calories, or exploring new diets, we have something perfect for you!</p>
+        </div>
+
+        <!-- Dietary Options -->
+        <div class="dietary-section">
+            <h2 class="section-title">Choose Your Dietary Preference</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="diet-card" data-diet="high-protein">
+                        <div class="diet-icon diet-high-protein">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3 class="diet-title">High-Protein</h3>
+                        <p class="diet-desc">Build muscle & stay full longer with protein-packed meals</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="diet-card" data-diet="gluten-free">
+                        <div class="diet-icon diet-gluten-free">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3 class="diet-title">Gluten-Free</h3>
+                        <p class="diet-desc">Delicious recipes without gluten-containing grains</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="diet-card" data-diet="low-calorie">
+                        <div class="diet-icon diet-low-calorie">
+                            <i class="fas fa-weight-scale"></i>
+                        </div>
+                        <h3 class="diet-title">Low-Calorie</h3>
+                        <p class="diet-desc">Light & satisfying meals for weight management</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="diet-card" data-diet="vegetarian">
+                        <div class="diet-icon diet-vegetarian">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="diet-title">Vegetarian</h3>
+                        <p class="diet-desc">Plant-based goodness without meat or fish</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="diet-card" data-diet="non-vegetarian">
+                        <div class="diet-icon diet-non-vegetarian">
+                            <i class="fas fa-drumstick-bite"></i>
+                        </div>
+                        <h3 class="diet-title">Non-Vegetarian</h3>
+                        <p class="diet-desc">Protein-rich meals with meat, poultry, or seafood</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="diet-card" data-diet="probiotic">
+                        <div class="diet-icon diet-probiotic">
+                            <i class="fas fa-bacteria"></i>
+                        </div>
+                        <h3 class="diet-title">Probiotic</h3>
+                        <p class="diet-desc">Gut-friendly foods with natural probiotics</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="diet-card" data-diet="high-fiber">
+                        <div class="diet-icon diet-high-fiber">
+                            <i class="fas fa-apple-whole"></i>
+                        </div>
+                        <h3 class="diet-title">High-Fiber</h3>
+                        <p class="diet-desc">Improve digestion with fiber-rich ingredients</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="diet-card" data-diet="high-calorie">
+                        <div class="diet-icon diet-high-calorie">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3 class="diet-title">High-Calorie</h3>
+                        <p class="diet-desc">Energy-dense meals for weight gain or high activity</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button class="btn custom-btn px-5 py-3" onclick="filterByDiet()">
+                    <i class="fas fa-filter me-2"></i>Show Matching Recipes
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h2 class="section-title" id="resultsTitle"></h2>
+            <div class="row" id="recipeResults"></div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>No Recipes Found</h3>
+                <p class="hero-subtitle">We couldn't find recipes matching your selected dietary preference. Try another option!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Details Modal -->
+    <div class="recipe-modal" id="recipeModal">
+        <div class="recipe-modal-content">
+            <div class="modal-close" id="closeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-header">
+                <h3 id="modalRecipeTitle"></h3>
+                <p id="modalRecipeCategory"></p>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="modal-section">
+                            <h4><i class="fas fa-list-check me-2"></i>Ingredients</h4>
+                            <div id="modalIngredients"></div>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-clock me-2"></i>Nutrition Facts</h4>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="stat-value" id="modalCalories"></div>
+                                    <div class="stat-label">Calories</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-value" id="modalProtein"></div>
+                                    <div class="stat-label">Protein</div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="stat-value" id="modalCarbs"></div>
+                                    <div class="stat-label">Carbs</div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="stat-value" id="modalFats"></div>
+                                    <div class="stat-label">Fats</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="modal-section">
+                            <h4><i class="fas fa-fire me-2"></i>Cooking Instructions</h4>
+                            <div id="modalInstructions"></div>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-info-circle me-2"></i>Details</h4>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="stat-label">Cooking Time</div>
+                                    <div class="stat-value" id="modalTime"></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-label">Serving Size</div>
+                                    <div class="stat-value" id="modalServing"></div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="stat-label">Spice Level</div>
+                                    <div class="stat-value" id="modalSpice"></div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="stat-label">Diet Type</div>
+                                    <div class="stat-value" id="modalDiet"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-book-open me-2"></i>Step-by-Step Guide</h4>
+                    <div id="modalStepByStep"></div>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn custom-btn me-3" onclick="addToFavourites()">
+                        <i class="fas fa-heart me-2"></i>Add to Favourites
+                    </button>
+                    <button class="btn custom-btn" onclick="shareRecipe()">
+                        <i class="fas fa-share-alt me-2"></i>Share Recipe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Cook Smarter, Eat Better</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedDiet = '';
+        let currentRecipe = null;
+
+        // Dietary card selection
+        document.querySelectorAll('.diet-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove selection from all cards
+                document.querySelectorAll('.diet-card').forEach(c => {
+                    c.classList.remove('selected');
+                });
+
+                // Add selection to clicked card
+                this.classList.add('selected');
+                selectedDiet = this.getAttribute('data-diet');
+
+                // Update results title
+                const dietName = this.querySelector('.diet-title').textContent;
+                document.getElementById('resultsTitle').textContent = `${dietName} Recipes`;
+            });
+        });
+
+        function filterByDiet() {
+            if (!selectedDiet) {
+                alert("Please select a dietary preference first!");
+                return;
+            }
+
+            fetch('/filter_by_diet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `diet=${encodeURIComponent(selectedDiet)}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsSection = document.getElementById('resultsSection');
+                const recipeResults = document.getElementById('recipeResults');
+                const emptyState = document.getElementById('emptyState');
+
+                resultsSection.style.display = 'block';
+                recipeResults.innerHTML = '';
+
+                if (data.error) {
+                    emptyState.style.display = 'block';
+                    emptyState.innerHTML = `
+                        <div class="empty-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>Error Loading Recipes</h3>
+                        <p class="hero-subtitle">${data.error}</p>
+                    `;
+                } else if (data.length === 0) {
+                    emptyState.style.display = 'block';
+                } else {
+                    emptyState.style.display = 'none';
+                    data.forEach(recipe => {
+                        const recipeCard = createRecipeCard(recipe);
+                        recipeResults.appendChild(recipeCard);
+                    });
+
+                    // Animate cards
+                    animateCards();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('emptyState').style.display = 'block';
+            });
+        }
+
+        function createRecipeCard(recipe) {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-6 mb-4';
+
+            // Get appropriate icon based on category
+            let categoryIcon = 'fa-utensils';
+            if (recipe['Category']?.toLowerCase().includes('breakfast')) categoryIcon = 'fa-sun';
+            if (recipe['Category']?.toLowerCase().includes('lunch')) categoryIcon = 'fa-utensils';
+            if (recipe['Category']?.toLowerCase().includes('dinner')) categoryIcon = 'fa-moon';
+            if (recipe['Category']?.toLowerCase().includes('dessert')) categoryIcon = 'fa-ice-cream';
+
+            col.innerHTML = `
+                <div class="recipe-card" onclick="showRecipeDetails(${JSON.stringify(recipe).replace(/"/g, '&quot;')})">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="${recipe['Food Name']}">
+                    </div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">${recipe['Food Name']}</h3>
+                        <div class="recipe-meta">
+                            <span class="recipe-category">
+                                <i class="fas ${categoryIcon} me-2"></i>${recipe['Category'] || 'General'}
+                            </span>
+                            <span class="recipe-time">
+                                <i class="fas fa-clock me-1"></i>${recipe['Cooking Time (mins)'] || '30'} mins
+                            </span>
+                        </div>
+                        <div class="recipe-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${recipe['Calories'] || '250'}</div>
+                                <div class="stat-label">CALORIES</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${recipe['Protein (g)'] || '15'}g</div>
+                                <div class="stat-label">PROTEIN</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${recipe['Serving Size'] || '2'}</div>
+                                <div class="stat-label">SERVES</div>
+                            </div>
+                        </div>
+                        <button class="btn custom-btn w-100">
+                            <i class="fas fa-book-open me-2"></i>View Recipe
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            return col;
+        }
+
+        function showRecipeDetails(recipe) {
+            currentRecipe = recipe;
+
+            // Set modal content
+            document.getElementById('modalRecipeTitle').textContent = recipe['Food Name'];
+            document.getElementById('modalRecipeCategory').textContent = `${recipe['Category']} • ${recipe['Dietary Preference']}`;
+
+            // Format ingredients
+            const ingredients = recipe['Ingredients'] || '';
+            const ingredientsList = ingredients.split(',').map(ing => `<li>${ing.trim()}</li>`).join('');
+            document.getElementById('modalIngredients').innerHTML = `<ul class="article-list">${ingredientsList}</ul>`;
+
+            // Format instructions
+            const instructions = recipe['Cooking Instructions'] || '';
+            document.getElementById('modalInstructions').innerHTML = `<p class="article-text">${instructions}</p>`;
+
+            // Set nutrition facts
+            document.getElementById('modalCalories').textContent = recipe['Calories'] || 'N/A';
+            document.getElementById('modalProtein').textContent = `${recipe['Protein (g)'] || '0'}g`;
+            document.getElementById('modalCarbs').textContent = `${recipe['Carbohydrates (g)'] || '0'}g`;
+            document.getElementById('modalFats').textContent = `${recipe['Fats (g)'] || '0'}g`;
+
+            // Set details
+            document.getElementById('modalTime').textContent = `${recipe['Cooking Time (mins)'] || '30'} min`;
+            document.getElementById('modalServing').textContent = recipe['Serving Size'] || '2';
+            document.getElementById('modalSpice').textContent = recipe['Spice Level'] || 'Medium';
+            document.getElementById('modalDiet').textContent = recipe['Dietary Preference'] || 'General';
+
+            // Set step-by-step guide
+            const stepByStep = recipe['Step-by-Step Cooking Guide'] || '';
+            document.getElementById('modalStepByStep').innerHTML = `<p class="article-text">${stepByStep}</p>`;
+
+            // Show modal
+            document.getElementById('recipeModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function addToFavourites() {
+            if (!currentRecipe) return;
+
+            fetch('/add_to_favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `dish_name=${encodeURIComponent(currentRecipe['Food Name'])}`,
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(`${currentRecipe['Food Name']} has been added to your favourites!`);
+                } else {
+                    alert('Failed to add to favourites. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+
+        function shareRecipe() {
+            if (!currentRecipe) return;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: currentRecipe['Food Name'],
+                    text: `Check out this delicious ${currentRecipe['Food Name']} recipe!`,
+                    url: window.location.href,
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                navigator.clipboard.writeText(`${currentRecipe['Food Name']} - ${window.location.href}`);
+                alert('Recipe link copied to clipboard!');
+            }
+        }
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('recipeModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside content
+        document.getElementById('recipeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        function animateCards() {
+            const cards = document.querySelectorAll('.recipe-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        // Press Escape to close modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('recipeModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>

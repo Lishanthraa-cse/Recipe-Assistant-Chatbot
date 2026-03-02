@@ -1,0 +1,1067 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ recipes[0].get('Food Name', 'Unknown Recipe') if recipes else 'Recipe Details' }} - Recipe Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+            --pastel-green: #C1E1C1;
+            --pastel-blue: #B5EAD7;
+            --pastel-purple: #D8BFD8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        .custom-btn {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+            border: 2px solid var(--pastel-coral);
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .custom-btn:hover {
+            background-color: var(--pastel-coral);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Recipe Header */
+        .recipe-header-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recipe-header-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .recipe-header-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .recipe-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .recipe-name {
+            font-size: 2rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .recipe-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Recipe Stats */
+        .recipe-stats-section {
+            margin: 40px 0;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            height: 100%;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--pastel-peach);
+        }
+
+        .stats-icon {
+            font-size: 2.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 15px;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--pastel-coral);
+            margin-bottom: 5px;
+        }
+
+        .stats-label {
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* Recipe Content */
+        .recipe-content-section {
+            margin: 60px 0;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .content-card:hover {
+            border-color: var(--pastel-peach);
+        }
+
+        .section-title {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: var(--pastel-peach);
+            border-radius: 2px;
+        }
+
+        /* Ingredients */
+        .ingredients-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .ingredient-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .ingredient-item:hover {
+            background: var(--pastel-cream);
+            padding-left: 15px;
+            border-radius: 10px;
+        }
+
+        .ingredient-item:last-child {
+            border-bottom: none;
+        }
+
+        .ingredient-check {
+            color: var(--pastel-green);
+            font-size: 1.2rem;
+        }
+
+        .ingredient-name {
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        /* Cooking Instructions */
+        .cooking-instructions {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--pastel-cream);
+            border-radius: 15px;
+            border-left: 5px solid var(--pastel-coral);
+        }
+
+        .instruction-item {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .instruction-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--pastel-coral);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* Step-by-Step Guide */
+        .guide-list {
+            padding-left: 0;
+        }
+
+        .guide-text {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            padding-top: 8px;
+            padding-left: 15px;
+        }
+
+        /* Dietary Badges */
+        .dietary-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dietary-badge {
+            background: var(--pastel-green);
+            color: var(--text-dark);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spice-level {
+            background: var(--pastel-pink);
+            color: white;
+        }
+
+        /* Nutritional Info */
+        .nutritional-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .nutritional-item {
+            background: var(--pastel-cream);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .nutritional-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nutritional-value {
+            font-weight: 700;
+            color: var(--pastel-coral);
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .nutritional-label {
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: 2px solid var(--pastel-peach);
+            color: var(--text-dark);
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .action-btn:hover {
+            background: var(--pastel-peach);
+            transform: translateY(-3px);
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn.favorite {
+            background: var(--pastel-coral);
+            color: white;
+            border-color: var(--pastel-coral);
+        }
+
+        .action-btn.favorite:hover {
+            background: var(--pastel-pink);
+            border-color: var(--pastel-pink);
+        }
+
+        /* Success Notification */
+        .success-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--pastel-green);
+            color: var(--text-dark);
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            max-width: 350px;
+        }
+
+        .success-notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            color: var(--pastel-coral);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Print Button */
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--pastel-coral);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .print-btn:hover {
+            background: var(--pastel-pink);
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .recipe-title {
+                font-size: 2.5rem;
+            }
+
+            .recipe-name {
+                font-size: 1.5rem;
+            }
+
+            .recipe-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nutritional-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-number {
+                font-size: 1.8rem;
+            }
+
+            .success-notification {
+                top: 80px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-card {
+                padding: 25px;
+            }
+
+            .nutritional-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .print-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+
+            .guide-item::before {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Success Notification -->
+    <div class="success-notification" id="successNotification">
+        <i class="fas fa-check-circle notification-icon"></i>
+        <div>
+            <strong>Success!</strong><br>
+            <span id="notificationMessage">Recipe added to favourites!</span>
+        </div>
+    </div>
+
+    <!-- Recipe Header -->
+    <div class="container">
+        <div class="recipe-header-section">
+            <h1 class="recipe-title">Recipe Details</h1>
+            <div class="recipe-name">{{ recipes[0].get('Food Name', 'Unknown Recipe') if recipes else 'Unknown Recipe' }}</div>
+            <p class="recipe-subtitle">Discover the delicious details of this amazing recipe. Follow our step-by-step guide to create a perfect dish every time!</p>
+
+            <!-- Recipe Stats -->
+            <div class="row recipe-stats-section">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stats-number">{{ recipes[0].get('Cooking Time (mins)', '15') if recipes else '15' }} min</div>
+                        <div class="stats-label">Cooking Time</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="stats-number">{{ recipes[0].get('Serving Size', '3') if recipes else '3' }}</div>
+                        <div class="stats-label">Serving Size</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stats-number">{{ recipes[0].get('Calories', '239') if recipes else '239' }}</div>
+                        <div class="stats-label">Calories</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-pepper-hot"></i>
+                        </div>
+                        <div class="stats-number">{{ recipes[0].get('Spice Level', 'Medium') if recipes else 'Medium' }}</div>
+                        <div class="stats-label">Spice Level</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category and Dietary Info -->
+            <div class="dietary-badges">
+                <div class="dietary-badge">
+                    <i class="fas fa-tag"></i> {{ recipes[0].get('Category', 'General') if recipes else 'General' }}
+                </div>
+                <div class="dietary-badge">
+                    <i class="fas fa-heart"></i> {{ recipes[0].get('Dietary Preference', 'All') if recipes else 'All' }}
+                </div>
+                <div class="dietary-badge spice-level">
+                    <i class="fas fa-pepper-hot"></i> {{ recipes[0].get('Spice Level', 'Medium') if recipes else 'Medium' }} Spice
+                </div>
+            </div>
+        </div>
+
+        <!-- Recipe Content -->
+        <div class="recipe-content-section">
+            <div class="row">
+                <!-- Ingredients Column -->
+                <div class="col-lg-6 mb-4">
+                    <div class="content-card">
+                        <h2 class="section-title">
+                            <i class="fas fa-shopping-basket me-2"></i>Ingredients
+                        </h2>
+                        <ul class="ingredients-list">
+                            {% if recipes and recipes[0].get('Ingredients') %}
+                                {% for ingredient in recipes[0]['Ingredients'].split(',') %}
+                                    {% if ingredient.strip() %}
+                                        <li class="ingredient-item">
+                                            <i class="fas fa-check-circle ingredient-check"></i>
+                                            <span class="ingredient-name">{{ ingredient.strip() }}</span>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <li class="ingredient-item">
+                                    <i class="fas fa-check-circle ingredient-check"></i>
+                                    <span class="ingredient-name">Ingredients not specified</span>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Instructions Column -->
+                <div class="col-lg-6 mb-4">
+                    <div class="content-card">
+                        <h2 class="section-title">
+                            <i class="fas fa-list-ol me-2"></i>Cooking Instructions
+                        </h2>
+
+                        <!-- Cooking Instructions -->
+                        {% if recipes and recipes[0].get('Cooking Instructions') %}
+                            {% set instructions = recipes[0]['Cooking Instructions'] %}
+                            <div class="cooking-instructions">
+                                {% if instructions %}
+                                    {% if '\n' in instructions or '\\n' in instructions or '1.' in instructions %}
+                                        <!-- Format instructions with bullet points -->
+                                        {% set instruction_lines = instructions.replace('\\n', '\n').split('\n') %}
+                                        {% for line in instruction_lines %}
+                                            {% if line.strip() %}
+                                                {% if line.strip().startswith(tuple(['1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', 'Step', 'step'])) %}
+                                                    <!-- If it's already numbered, remove numbers and use bullet -->
+                                                    {% set clean_line = line.strip() %}
+                                                    {% if '.' in clean_line %}
+                                                        {% set clean_line = clean_line.split('.', 1)[1] if '.' in clean_line else clean_line %}
+                                                    {% endif %}
+                                                    <div class="instruction-item">{{ clean_line.strip() }}</div>
+                                                {% else %}
+                                                    <div class="instruction-item">{{ line.strip() }}</div>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <!-- Try to split by common separators -->
+                                        {% if '. ' in instructions %}
+                                            {% set instruction_points = instructions.split('. ') %}
+                                            {% for point in instruction_points %}
+                                                {% if point.strip() and not point.strip().endswith('.') %}
+                                                    <div class="instruction-item">{{ point.strip() }}.</div>
+                                                {% elif point.strip() %}
+                                                    <div class="instruction-item">{{ point.strip() }}</div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="instruction-item">{{ instructions }}</div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    <div class="instruction-item">No cooking instructions available.</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        <!-- Step-by-Step Cooking Guide -->
+                        {% if recipes and recipes[0].get('Step-by-Step Cooking Guide') %}
+                            {% set guide = recipes[0]['Step-by-Step Cooking Guide'] %}
+                            {% if guide %}
+                                <h2 class="section-title" style="margin-top: 40px;">
+                                    <i class="fas fa-clipboard-list me-2"></i>Step-by-Step Cooking Guide
+                                </h2>
+
+                                <div class="guide-list">
+    {% set steps = guide.replace('\\n', ' ').split('. ') %}
+    {% for step in steps %}
+        {% if step.strip() %}
+            <div class="guide-item">
+                <div class="guide-text">
+                    {{ step.strip().lstrip('0123456789. ') }}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutritional Information -->
+            <div class="content-card">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-pie me-2"></i>Nutritional Information
+                </h2>
+                <div class="nutritional-grid">
+                    <div class="nutritional-item">
+                        <div class="nutritional-value">{{ recipes[0].get('Calories', '239') if recipes else '239' }}</div>
+                        <div class="nutritional-label">Calories</div>
+                    </div>
+                    <div class="nutritional-item">
+                        <div class="nutritional-value">{{ recipes[0].get('Protein (g)', '30') if recipes else '30' }}g</div>
+                        <div class="nutritional-label">Protein</div>
+                    </div>
+                    <div class="nutritional-item">
+                        <div class="nutritional-value">{{ recipes[0].get('Carbohydrates (g)', '23') if recipes else '23' }}g</div>
+                        <div class="nutritional-label">Carbs</div>
+                    </div>
+                    <div class="nutritional-item">
+                        <div class="nutritional-value">{{ recipes[0].get('Fats (g)', '10') if recipes else '10' }}g</div>
+                        <div class="nutritional-label">Fats</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="action-btn favorite" onclick="addToFavorites()">
+                    <i class="fas fa-heart me-2"></i> Add to Favourites
+                </button>
+                <a href="{{ url_for('home') }}" class="action-btn">
+                    <i class="fas fa-home me-2"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Button -->
+    <div class="print-btn" onclick="printRecipe()">
+        <i class="fas fa-print"></i>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Enjoy Your Meal!</p>
+            <p class="text-muted">Cook with Love, Serve with Pride</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Global variables
+        const recipeName = "{{ recipes[0].get('Food Name', 'Unknown Recipe') if recipes else 'Unknown Recipe' }}";
+
+        // Add to favorites function
+        function addToFavorites() {
+            const button = document.querySelector('.action-btn.favorite');
+            const originalContent = button.innerHTML;
+
+            // Show loading state
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Adding...';
+            button.disabled = true;
+
+            fetch('/add_to_favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `dish_name=${encodeURIComponent(recipeName)}`,
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success notification
+                    showSuccessNotification(`${recipeName} has been added to your favourites!`);
+
+                    // Update button state
+                    button.innerHTML = '<i class="fas fa-check me-2"></i> Added to Favourites';
+                    button.style.background = 'var(--pastel-green)';
+                    button.style.borderColor = 'var(--pastel-green)';
+
+                    // Re-enable button after 3 seconds
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.disabled = false;
+                        button.style.background = '';
+                        button.style.borderColor = '';
+                    }, 3000);
+                } else {
+                    throw new Error('Failed to add to favourites');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                button.innerHTML = '<i class="fas fa-times me-2"></i> Failed to Add';
+                button.style.background = '#ff6b6b';
+                button.style.borderColor = '#ff6b6b';
+
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalContent;
+                    button.disabled = false;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                }, 2000);
+
+                alert('Failed to add recipe to favourites. Please try again.');
+            });
+        }
+
+        // Show success notification
+        function showSuccessNotification(message) {
+            const notification = document.getElementById('successNotification');
+            const messageElement = document.getElementById('notificationMessage');
+
+            messageElement.textContent = message;
+            notification.classList.add('show');
+
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Print recipe function
+        function printRecipe() {
+            const printContent = `
+                <html>
+                <head>
+                    <title>${recipeName} Recipe</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+                        h1 { color: #FFA07A; text-align: center; margin-bottom: 10px; font-family: 'Dancing Script', cursive; }
+                        h2 { color: #FFA07A; border-bottom: 2px solid #FFDAB9; padding-bottom: 10px; font-family: 'Dancing Script', cursive; }
+                        .recipe-name { text-align: center; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; color: #333; }
+                        .meta { text-align: center; color: #666; margin-bottom: 30px; }
+                        .section { margin-bottom: 30px; }
+                        ul { list-style: none; padding-left: 0; }
+                        li { padding: 8px 0; border-bottom: 1px solid #eee; }
+                        .nutrition { background: #f9f9f9; padding: 20px; border-radius: 10px; margin-top: 30px; }
+                        .nutrition-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+                        .nutrition-item { text-align: center; }
+                        .nutrition-value { font-weight: bold; font-size: 1.2rem; color: #FFA07A; }
+                        .print-footer { text-align: center; margin-top: 40px; color: #666; font-size: 0.9em; }
+                        .stats { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
+                        .stat-item { text-align: center; }
+                        .stat-value { font-weight: bold; font-size: 1.3rem; color: #FFA07A; }
+                        .guide-item { margin-bottom: 15px; padding-left: 25px; position: relative; }
+                        .guide-item::before { content: counter(step-counter); counter-increment: step-counter; position: absolute; left: 0; top: 0; font-weight: bold; color: #FFA07A; }
+                        ol { padding-left: 25px; counter-reset: step-counter; }
+                        .instruction-item { margin-bottom: 10px; padding-left: 20px; position: relative; }
+                        .instruction-item::before { content: "•"; position: absolute; left: 0; color: #FFA07A; font-size: 1.5rem; line-height: 1; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Recipe Details</h1>
+                    <div class="recipe-name">${recipeName}</div>
+                    <div class="meta">{{ recipes[0].get('Category', 'General') if recipes else 'General' }} Recipe</div>
+
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value">{{ recipes[0].get('Cooking Time (mins)', '15') if recipes else '15' }} min</div>
+                            <div>Cooking Time</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{ recipes[0].get('Serving Size', '3') if recipes else '3' }}</div>
+                            <div>Serving Size</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{ recipes[0].get('Calories', '239') if recipes else '239' }}</div>
+                            <div>Calories</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>Ingredients</h2>
+                        <ul>
+                            {% if recipes and recipes[0].get('Ingredients') %}
+                                {% for ingredient in recipes[0]['Ingredients'].split(',') %}
+                                    {% if ingredient.strip() %}
+                                        <li>✓ ${ingredient.strip()}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <li>Ingredients not specified</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h2>Cooking Instructions</h2>
+                        {% if recipes and recipes[0].get('Cooking Instructions') %}
+                            {% set instructions = recipes[0]['Cooking Instructions'] %}
+                            {% if instructions %}
+                                {% if '\n' in instructions or '\\n' in instructions %}
+                                    {% set instruction_lines = instructions.replace('\\n', '\n').split('\n') %}
+                                    {% for line in instruction_lines %}
+                                        {% if line.strip() %}
+                                            <div class="instruction-item">${line.strip()}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="instruction-item">${instructions}</div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% if recipes and recipes[0].get('Step-by-Step Cooking Guide') %}
+                            {% set guide = recipes[0]['Step-by-Step Cooking Guide'] %}
+                            {% if guide %}
+                                <h2>Step-by-Step Cooking Guide</h2>
+                                <ol>
+                                    {% if '\n' in guide or '\\n' in guide %}
+                                        {% set steps = guide.replace('\\n', '\n').split('\n') %}
+                                        {% for step in steps %}
+                                            {% if step.strip() %}
+                                                <li class="guide-item">${step.strip()}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <li class="guide-item">${guide}</li>
+                                    {% endif %}
+                                </ol>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
+                    <div class="nutrition">
+                        <h2>Nutritional Information</h2>
+                        <div class="nutrition-grid">
+                            <div class="nutrition-item">
+                                <div class="nutrition-value">{{ recipes[0].get('Calories', '239') if recipes else '239' }}</div>
+                                <div>Calories</div>
+                            </div>
+                            <div class="nutrition-item">
+                                <div class="nutrition-value">{{ recipes[0].get('Protein (g)', '30') if recipes else '30' }}g</div>
+                                <div>Protein</div>
+                            </div>
+                            <div class="nutrition-item">
+                                <div class="nutrition-value">{{ recipes[0].get('Carbohydrates (g)', '23') if recipes else '23' }}g</div>
+                                <div>Carbs</div>
+                            </div>
+                            <div class="nutrition-item">
+                                <div class="nutrition-value">{{ recipes[0].get('Fats (g)', '10') if recipes else '10' }}g</div>
+                                <div>Fats</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="print-footer">
+                        Printed from Recipe Assistant on ${new Date().toLocaleDateString()}<br>
+                        Cook with love, serve with pride!
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to ingredient items
+            const ingredientItems = document.querySelectorAll('.ingredient-item');
+            ingredientItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+
+            // Animate nutritional items on scroll
+            const nutritionalItems = document.querySelectorAll('.nutritional-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            nutritionalItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(item);
+            });
+
+            // Animate stats cards
+            const statsCards = document.querySelectorAll('.stats-card');
+            statsCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Animate guide items
+            const guideItems = document.querySelectorAll('.guide-item');
+            guideItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(20px)';
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 100 + 200);
+            });
+        });
+    </script>
+</body>
+</html>

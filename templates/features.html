@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Features - Recipe Assistant Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #FFB6C1;
+            --pastel-peach: #FFDAB9;
+            --pastel-apricot: #FFDEAD;
+            --pastel-coral: #FFA07A;
+            --pastel-cream: #FFFAF0;
+            --text-dark: #5A5A5A;
+            --pastel-green: #C1E1C1;
+            --pastel-blue: #B5EAD7;
+            --pastel-purple: #D8BFD8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-apricot) 100%);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styling */
+        .custom-navbar {
+            background-color: var(--pastel-cream);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--pastel-coral);
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--pastel-coral);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .myimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--pastel-coral);
+        }
+
+        .custom-btn {
+            background-color: var(--pastel-peach);
+            color: var(--text-dark);
+            border: 2px solid var(--pastel-coral);
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .custom-btn:hover {
+            background-color: var(--pastel-coral);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--pastel-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--pastel-coral);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Features Section */
+        .features-main-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--pastel-coral);
+            font-weight: 700;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--pastel-peach);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            height: 100%;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--pastel-pink), var(--pastel-coral));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--pastel-peach);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--pastel-coral);
+            margin-bottom: 25px;
+            height: 90px;
+            width: 90px;
+            line-height: 90px;
+            background-color: var(--pastel-cream);
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-coral));
+            color: white;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .feature-desc {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Feature Colors */
+        .feature-voice { border-top-color: var(--pastel-pink); }
+        .feature-ingredient { border-top-color: var(--pastel-green); }
+        .feature-quick { border-top-color: var(--pastel-coral); }
+        .feature-meal { border-top-color: var(--pastel-blue); }
+        .feature-dietary { border-top-color: var(--pastel-purple); }
+
+        /* Demo Section */
+        .demo-section {
+            background: rgba(255, 250, 240, 0.9);
+            border-radius: 25px;
+            padding: 50px;
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .demo-title {
+            color: var(--pastel-coral);
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .demo-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .demo-step {
+            background: white;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--pastel-coral);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .demo-step::after {
+            content: '→';
+            position: absolute;
+            right: -40px;
+            color: var(--pastel-coral);
+            font-size: 1.5rem;
+        }
+
+        .demo-step:last-child::after {
+            display: none;
+        }
+
+        .step-label {
+            margin-top: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            margin: 60px 0;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-left: 5px solid var(--pastel-coral);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--pastel-coral);
+        }
+
+        .testimonial-rating {
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-coral));
+            border-radius: 25px;
+            padding: 60px 40px;
+            margin: 60px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            background-color: white;
+            color: var(--pastel-coral);
+            border: 2px solid white;
+            border-radius: 25px;
+            padding: 12px 35px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: transparent;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--pastel-coral);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .demo-step::after {
+                display: none;
+            }
+
+            .demo-steps {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo">
+                    <img class="myimg" src="{{ url_for('static', filename='recipe.png') }}" alt="Recipe Assistant Logo">
+                </div>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Recipe Assistant</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('favourite_recipes') }}">Favourites</a></li>
+                </ul>
+                <form class="d-flex ms-lg-3 mt-3 mt-lg-0" action="{{ url_for('search_recipe') }}" method="POST">
+                    <input class="form-control search-input me-2" type="search" name="recipe_name" placeholder="Search recipes..." required>
+                    <button class="btn custom-btn" type="submit"><i class="fas fa-search me-2"></i></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Powerful Features for Cooking Success</h1>
+            <p class="hero-subtitle">Discover how Recipe Assistant makes cooking easier, faster, and more enjoyable with our smart, AI-powered features designed for both novice cooks and kitchen experts.</p>
+        </div>
+
+        <!-- Main Features Section -->
+        <div class="features-main-section">
+            <h2 class="section-title">Our Amazing Features</h2>
+
+            <div class="row">
+                <!-- Voice Search Feature -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card feature-voice">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Voice-Activated Search</h3>
+                        <p class="feature-desc">Simply speak the dish name or ingredients you have, and get instant recipe suggestions with step-by-step voice instructions. Perfect for hands-free cooking!</p>
+                        <a href="{{ url_for('smart_suggestions') }}" class="btn custom-btn">
+                            <i class="fas fa-play-circle me-2"></i>Try Voice Search
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Ingredient Search Feature -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card feature-ingredient">
+                        <div class="feature-icon">
+                            <i class="fas fa-carrot"></i>
+                        </div>
+                        <h3 class="feature-title">Ingredient-Based Search</h3>
+                        <p class="feature-desc">Find perfect recipes based on the ingredients you already have. Reduce food waste and get creative meal ideas without extra shopping trips.</p>
+                        <a href="{{ url_for('ingredient_search') }}" class="btn custom-btn">
+                            <i class="fas fa-search me-2"></i>Search by Ingredients
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Recipes Feature -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card feature-quick">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title">Quick & Easy Recipes</h3>
+                        <p class="feature-desc">Filter recipes that are simple, fast, and require minimal effort. Perfect for busy weekdays when you need a delicious meal in 30 minutes or less.</p>
+                        <a href="{{ url_for('quick_recipes') }}" class="btn custom-btn">
+                            <i class="fas fa-clock me-2"></i>Find Quick Recipes
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Meal Planner Feature -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card feature-meal">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Smart Meal Planner</h3>
+                        <p class="feature-desc">Generate a personalized weekly meal plan based on your dietary preferences, nutritional goals, and schedule. Save time and eat healthier effortlessly.</p>
+                        <a href="{{ url_for('meal_planner') }}" class="btn custom-btn">
+                            <i class="fas fa-utensils me-2"></i>Plan Your Meals
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Dietary Filter Feature -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card feature-dietary">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="feature-title">Dietary Preferences Filter</h3>
+                        <p class="feature-desc">Get recipes that match your specific dietary needs: vegan, gluten-free, keto, low-carb, dairy-free, nut-free, and more. Cook with confidence.</p>
+                        <a href="{{ url_for('dietary_filter') }}" class="btn custom-btn">
+                            <i class="fas fa-filter me-2"></i>Filter by Diet
+                        </a>
+                    </div>
+                </div>
+
+        <!-- How It Works Demo -->
+        <div class="demo-section">
+            <h2 class="demo-title">How Recipe Assistant Works</h2>
+            <p class="hero-subtitle">Experience the magic of cooking with AI in three simple steps</p>
+
+            <div class="demo-steps">
+                <div class="text-center">
+                    <div class="demo-step">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <div class="step-label">Speak or Type</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="demo-step">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="step-label">AI Processes</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="demo-step">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="step-label">Cook & Enjoy</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="testimonials-section">
+            <h2 class="section-title">What Our Users Say</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The voice search feature changed my cooking game! I can search for recipes while chopping vegetables. Absolutely brilliant!"</p>
+                        <div class="testimonial-author">- Priya S.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="testimonial-text">"As someone with gluten intolerance, the dietary filter has been a lifesaver. I can finally cook without worrying!"</p>
+                        <div class="testimonial-author">- Rajesh K.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The meal planner helped me lose 5kg in 2 months! Healthy, delicious meals planned automatically. Highly recommend!"</p>
+                        <div class="testimonial-author">- Ananya M.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2 class="cta-title">Ready to Transform Your Cooking?</h2>
+            <p class="cta-text">Join hundreds of happy cooks who are enjoying stress-free, delicious meals every day with Recipe Assistant.</p>
+            <a href="{{ url_for('home') }}" class="btn cta-btn">
+                <i class="fas fa-rocket me-2"></i>Start Cooking Now
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">Recipe Assistant &copy; 2026 - Your Personal AI Chef</p>
+            <p class="text-muted">Cook Smarter, Eat Better, Live Healthier</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add animations to feature cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+
+            // Simple hover effect enhancement
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-15px)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Animate demo steps on page load
+            const demoSteps = document.querySelectorAll('.demo-step');
+            demoSteps.forEach((step, index) => {
+                setTimeout(() => {
+                    step.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        step.style.transform = 'scale(1)';
+                    }, 300);
+                }, index * 500);
+            });
+
+            // Testimonial rotation (simple version)
+            let currentTestimonial = 0;
+            const testimonials = document.querySelectorAll('.testimonial-card');
+
+            function rotateTestimonials() {
+                testimonials.forEach(card => card.style.opacity = '0.7');
+                testimonials[currentTestimonial].style.opacity = '1';
+                currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            }
+
+            // Start rotation after 3 seconds
+            setTimeout(() => {
+                setInterval(rotateTestimonials, 3000);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

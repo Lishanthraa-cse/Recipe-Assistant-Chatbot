@@ -45,24 +45,27 @@ The **Recipe Assistant Chatbot** is an AI-powered culinary platform that helps u
 
 1. Clone the repository
 
-git clone https://github.com/your-repo/recipe-assistant-chatbot.git
+      git clone https://github.com/your-repo/recipe-assistant-chatbot.git
 
-cd recipe-assistant-chatbot
+      cd recipe-assistant-chatbot
 
 2. Create a virtual environment
 
-python -m venv venv
+      python -m venv venv
 
-venv\Scripts\activate
+      venv\Scripts\activate
 
 3. Install dependencies
-pip install -r requirements.txt
 
-5. Run the Flask app
-python app.py
+      pip install -r requirements.txt
 
-7. Open your browser
-http://localhost:5000
+4. Run the Flask app
+
+      python app.py
+
+5. Open your browser
+   
+      http://localhost:5000
 
 # 📁 Project Structure
 recipe-assistant-chatbot/
